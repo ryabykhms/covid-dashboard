@@ -1,12 +1,26 @@
 .country-list {
-  height: 50vh;
-  overflow: paged-y;
+  margin: 0;
+  padding: 0;
 
-  font-size: 24px;
+  height: calc(100vh - 68px - 20px - 100px - 10px);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  overflow: scroll;
+
+  font-size: 18px;
 
   list-style: none;
+  background-color: darkseagreen;
+}
+
+.country-list li {
+  display: flex;
+  gap: 5px;
 }
 
 .country-list__image {
   width: 40px;
+  height: 30px;
 }

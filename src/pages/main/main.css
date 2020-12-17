@@ -1,0 +1,23 @@
+.main__wrapper {
+    max-width: 1800px;
+    height: calc(100vh - 68px);
+
+    display: grid;
+    grid-template-columns: 0.7fr 2.3fr 1.3fr;
+    grid-column-gap: 10px;
+
+    margin: 0 auto;
+    padding: 10px 12px;
+}
+
+.main__left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main__right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

@@ -1,1 +1,1 @@
-export { CountryList } from './countryList'
+export { CountryList } from './country-list'
