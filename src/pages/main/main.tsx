@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-    Example
+    CountryList
 } from "@components";
 
 export const MainPage = () => {
     return (
         <>
-            <Example />
+            <CountryList/>
         </>
     )
 }
