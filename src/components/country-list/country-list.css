@@ -1,0 +1,12 @@
+.country-list {
+  height: 50vh;
+  overflow: paged-y;
+
+  font-size: 24px;
+
+  list-style: none;
+}
+
+.country-list__image {
+  width: 40px;
+}
