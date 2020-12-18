@@ -1,3 +1,4 @@
 export enum AppActions {
   SET_COUNTRIES = 'SET_COUNTRIES',
+  SET_ACTIVE_COUNTRY = 'SET_ACTIVE_COUNTRY',
 }
