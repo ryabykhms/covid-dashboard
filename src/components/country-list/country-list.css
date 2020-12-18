@@ -2,17 +2,19 @@
   margin: 0;
   padding: 0;
 
-  height: calc(100vh - 68px - 20px - 100px - 10px);
+
   display: flex;
   flex-direction: column;
   gap: 5px;
 
-  overflow: scroll;
-
   font-size: 18px;
 
   list-style: none;
-  background-color: darkseagreen;
+  background-color: var(--main-bg-color);
+}
+
+.country-list__size-scrollbar {
+  height: calc(100vh - 68px - 20px - 100px - 10px);
 }
 
 .country-list li {
@@ -24,3 +26,4 @@
   width: 40px;
   height: 30px;
 }
+

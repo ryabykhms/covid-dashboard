@@ -1,3 +1,7 @@
+body {
+    background-color: black;
+}
+
 .main__wrapper {
     max-width: 1800px;
     height: calc(100vh - 68px);
@@ -8,6 +12,8 @@
 
     margin: 0 auto;
     padding: 10px 12px;
+
+    color: var(--main-text-color);
 }
 
 .main__left-column {
