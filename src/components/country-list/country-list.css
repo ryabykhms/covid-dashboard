@@ -1,6 +1,6 @@
 .country-list {
   margin: 0;
-  padding: 0;
+  padding: 3px;
 
 
   display: flex;
@@ -25,14 +25,37 @@
 .country-list__image {
   width: 40px;
   height: 30px;
+
+  margin: 0 5px 0 0;
+}
+
+.country-list__item {
+  display: flex;
+  flex-direction: column;
+
+  border-bottom: 1px solid white;
+
+  padding: 5px 0;
 }
 
 .country-list__item:hover {
   cursor: pointer;
-  background-color: gray;
+  background-color: var(--hover);
 }
 
 .country-list__active-item {
-  background-color: darkmagenta;
+  background-color: var(--hover);
 }
 
+.country-list__row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.country-list__cases-count {
+  width: 100%;
+  padding: 0 0 0 5px;
+
+  font-size: 22px;
+  color: var(--disturbing-color);
+}

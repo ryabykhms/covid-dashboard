@@ -24,8 +24,13 @@ export const CountryList = () => {
             key={name}
             onClick={() => setCountry(name)}
           >
-            <img className='country-list__image' src={flag} alt={name} />
-            {name}
+            <div className="country-list__row">
+              <img className='country-list__image' src={flag} alt={name} />
+              {name}
+            </div>
+            <div className="country-list__row">
+              <span className='country-list__cases-count'>17 176 796</span>
+            </div>
           </li>
         ))
       }
