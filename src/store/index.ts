@@ -4,9 +4,11 @@ import {
   IAppState,
   AppActions,
 } from '../types';
+import {dispatch} from "jest-circus/build/state";
 
 const defaultState: IAppState = {
   isCountriesLoaded: false,
+  selectedCountry: null,
   countries: [],
 }
 
@@ -18,6 +20,11 @@ function countriesReducer(state = defaultState, action: any) {
         ...state,
         isCountriesLoaded: true,
         countries: payload,
+      }
+    case AppActions.SET_ACTIVE_COUNTRY:
+      return {
+        ...state,
+        selectedCountry: payload,
       }
     default:
       return state
@@ -34,6 +41,10 @@ export const AppStore = createStore(
   )
 )
 
+export const setActiveCountry = (payload: string) => (dispatch: Dispatch) => {
+  dispatch({ type: AppActions.SET_ACTIVE_COUNTRY, payload})
+}
+
 AppStore.subscribe(() => console.log(AppStore.getState()))
 
 export const loadCountries = () => (dispatch: Dispatch) => {
@@ -42,4 +53,3 @@ export const loadCountries = () => (dispatch: Dispatch) => {
       dispatch({ type: AppActions.SET_COUNTRIES, payload: await response.json() })
     });
 };
-

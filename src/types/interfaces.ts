@@ -6,6 +6,7 @@ export interface ICountry {
 
 export interface IAppState {
   isCountriesLoaded: boolean,
+  selectedCountry: string | null,
   countries: Array<ICountry>,
 }
 

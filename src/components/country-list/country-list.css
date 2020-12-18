@@ -24,3 +24,12 @@
   width: 40px;
   height: 30px;
 }
+
+.country-list__item:hover {
+  cursor: pointer;
+  background-color: gray;
+}
+
+.country-list__active-item {
+  background-color: darkmagenta;
+}
