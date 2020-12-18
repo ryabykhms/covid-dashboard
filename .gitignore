@@ -46,3 +46,5 @@ pids
 .idea
 *.sublime*
 .vscode
+
+.eslintcache

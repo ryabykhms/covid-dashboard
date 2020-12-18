@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './reset.css';
 import './main.css';
+
 import {
   CountryList,
   MainStats,
@@ -10,6 +11,8 @@ import {
   Footer,
   Header,
 } from "@components";
+
+import '../../css-variables/css-variables.css'
 
 export const MainPage = () => {
     return (
