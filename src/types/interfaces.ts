@@ -2,17 +2,35 @@ export interface ICountry {
   population: number;
   flag: string;
   name: string;
+  alpha2Code: string;
+}
+
+export interface ICovidCase {
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+}
+
+export interface ICovidInfo {
+  total: ICovidCase;
+  totalPer100: ICovidCase;
+  lastDay: ICovidCase;
+  lastDayPer100: ICovidCase;
 }
 
 export interface IAppState {
-  isCountriesLoaded: boolean,
-  selectedCountry: string | null,
-  countries: Array<ICountry>,
+  isCountriesLoaded: boolean;
+  isCovidLoaded: boolean;
+  countries: Array<ICountry>;
+  selectedCountry: string | null;
+  covidActive: ICovidInfo | null;
+  covidGlobal: ICovidInfo | null;
+  covidAllCountries: Array<ICovidInfo>;
 }
 
 export interface IAppComponentProps {
-  isCountriesLoaded: boolean,
-  loadCountries: () => void,
+  isCountriesLoaded: boolean;
+  isCovidLoaded: boolean;
+  loadCountries: () => void;
+  loadCovidInfo: () => void;
 }
-
-
