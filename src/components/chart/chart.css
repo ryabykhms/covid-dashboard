@@ -1,5 +1,6 @@
 .chart {
-    background-color: green;
-
     height: 50%;
+    padding: 10px;
+
+    background-color: var(--main-bg-color);
 }

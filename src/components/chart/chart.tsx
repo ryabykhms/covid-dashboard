@@ -1,6 +1,0 @@
-import * as React from 'react';
-import './chart.css';
-
-export const Chart = () => {
-  return <div className='chart'>Chart</div>
-}

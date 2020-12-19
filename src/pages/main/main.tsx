@@ -5,7 +5,7 @@ import './main.css';
 import {
   CountryList,
   MainStats,
-  Chart,
+  ChartComponent,
   Map,
   StatsTable,
   Footer,
@@ -25,8 +25,8 @@ export const MainPage = () => {
               </div>
               <Map />
               <div className='main__right-column'>
-                <Chart />
                 <StatsTable />
+                <ChartComponent />
               </div>
             </div>
           <Footer />
