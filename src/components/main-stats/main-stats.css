@@ -1,4 +1,33 @@
 .main-stats {
-    height: 100px;
-    background-color: yellow;
+    min-height: 100px;
+    padding: 17px 0;
+
+    font-size: 22px;
+    text-align: center;
+    background-color: var(--main-bg-color);
+}
+
+.main-stats:hover {
+    cursor: pointer;
+    background-color: var(--hover);
+}
+
+.main-stats__title {
+    font-size: inherit;
+    color: var(--main-text-color);
+}
+
+.main-stats__value {
+    color: var(--disturbing-color);
+}
+
+.main-stats__active {
+    background-color: var(--hover);
+    outline: 1px solid var(--disturbing-color);
+}
+
+@media (max-width: 900px) {
+    .main-stats {
+        font-size: 16px;
+    }
 }

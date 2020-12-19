@@ -29,7 +29,7 @@ export function countriesReducer(state = defaultState, action: any) {
   }
 }
 
-export const setActiveCountry = (payload: string) => (dispatch: Dispatch) => {
+export const setActiveCountry = (payload: string | null) => (dispatch: Dispatch) => {
   dispatch({ type: AppActions.SET_ACTIVE_COUNTRY, payload });
 };
 
