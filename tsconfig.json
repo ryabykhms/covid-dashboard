@@ -23,7 +23,9 @@
     "paths": {
       "@pages": ["pages"],
       "@components": ["components"],
-      "@types": ["types"]
+      "@types": ["types"],
+      "@store": ["store"],
+      "@constants": ["constants"]
     }
   },
   "include": [

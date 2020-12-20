@@ -4,6 +4,7 @@ import defaultState from './default-state';
 import { rootReducer } from './reducers';
 
 export { setActiveCountry, loadCountries } from './reducers/countries-reducer';
+export * from './reducers/selected-data-reducer';
 export { loadCovidInfo } from './reducers/covid-reducer';
 
 const composeEnhancers =

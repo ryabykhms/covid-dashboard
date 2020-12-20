@@ -6,3 +6,4 @@ export * from './main-stats';
 export * from './map';
 export * from './header';
 export * from './footer';
+export * from './control-element';

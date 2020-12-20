@@ -8,4 +8,9 @@ export default {
   covidActive: null,
   covidGlobal: null,
   covidAllCountries: [],
+  selectedData: {
+    timeInterval: 'all',
+    activeStatus: 'confirmed',
+    sizeStats: 'all',
+  }
 } as IAppState;
