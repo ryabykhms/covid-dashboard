@@ -53,7 +53,7 @@ export interface IAppState {
   covidActive: ICovidInfo | null;
   covidGlobal: ICovidInfo | null;
   covidAllCountries: Array<ICovidInfo>;
-  globalCovidData: ICountryCovidItem[];
+  globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
 }
 
