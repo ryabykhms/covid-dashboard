@@ -21,5 +21,6 @@ export {
   loadCountries,
   countriesReducer,
   loadCovidInfo,
+  loadGlobalCovidData,
   covidReducer,
 } from './reducers';
