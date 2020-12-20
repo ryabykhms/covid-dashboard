@@ -1,13 +1,7 @@
-import defaultState from '../default-state';
-import { ICountry, AppActions } from '../../types';
 import { Dispatch } from 'redux';
-import {
-  storageCountries,
-  storagePopulation,
-  storageCovidData,
-  storageCovidGlobal,
-  storageLastFetchDate,
-} from '../../utils/local-storage';
+import { defaultState } from '@store';
+import { ICountry, AppActions } from '@types';
+import { storage } from '@utils';
 
 export function covidReducer(state = defaultState, action: any) {
   const { payload, type } = action;
@@ -17,9 +11,10 @@ export function covidReducer(state = defaultState, action: any) {
       let covidGlobal = state.covidGlobal;
       let validCountries: Array<ICountry> = state.countries;
 
-      if (payload.isFetch) {
+      if (payload.isFetch && !payload.isError) {
         const fetchDate = new Date().getTime().toString();
         const population = calcEarthPopulation(state.countries);
+
         covidAllCountries = formatDataFromFetch(
           state.countries,
           payload.data.Countries
@@ -32,14 +27,20 @@ export function covidReducer(state = defaultState, action: any) {
 
         covidGlobal = formatGlobalFromFetch(population, payload.data.Global);
 
-        storagePopulation.set(population);
-        storageCountries.set(validCountries);
-        storageCovidData.set(covidAllCountries);
-        storageCovidGlobal.set(covidGlobal);
-        storageLastFetchDate.set(fetchDate);
-      } else {
+        storage.population.set(population);
+        storage.countries.set(validCountries);
+        storage.covidData.set(covidAllCountries);
+        storage.covidGlobal.set(covidGlobal);
+        storage.lastFetchDate.set(fetchDate);
+      }
+
+      if (payload.isFetch && payload.isError) {
+        covidGlobal = null;
+      }
+
+      if (!payload.isFetch) {
         covidAllCountries = payload.data;
-        covidGlobal = storageCovidGlobal.get();
+        covidGlobal = storage.covidGlobal.get();
       }
 
       let covidActive: any = state.covidActive;
@@ -55,9 +56,52 @@ export function covidReducer(state = defaultState, action: any) {
         covidActive,
         countries: validCountries,
       };
+
+    case AppActions.SET_GLOBAL_COVID_DATA:
+      let globalCovidData = state.globalCovidData;
+
+      if (payload.isFetch && !payload.isError) {
+        globalCovidData = formatGlobalCovidData(payload.data);
+      }
+
+      if (payload.isFetch && payload.isError) {
+        globalCovidData = null;
+      }
+
+      return {
+        ...state,
+        isGlobalCovidDataLoaded: true,
+        isCountryCovidDataLoaded: true,
+        globalCovidData,
+        selectedData: globalCovidData,
+      };
+
     default:
       return state;
   }
+}
+
+function formatGlobalCovidData(data: any[]) {
+  const lastDay = new Date();
+  const length = data.length;
+  const sortData = data.slice();
+  sortData.sort((a, b) => a.TotalConfirmed - b.TotalConfirmed);
+  return sortData.map((infoByDay, i) => {
+    const date = getDatePrev(lastDay, length - i);
+    return {
+      Confirmed: infoByDay.TotalConfirmed,
+      Deaths: infoByDay.TotalDeaths,
+      Recovered: infoByDay.TotalRecovered,
+      Date: date,
+    };
+  });
+}
+
+function getDatePrev(lastDay: Date, countDays: number) {
+  const prevDate = new Date();
+  prevDate.setTime(lastDay.getTime());
+  prevDate.setDate(prevDate.getDate() - countDays);
+  return prevDate;
 }
 
 function getCoutriesSameFromCovid(
@@ -156,25 +200,57 @@ function formatDataFromFetch(countries: ICountry[], data: any) {
 export const loadCovidInfo = () => (dispatch: Dispatch) => {
   const now = new Date();
   const hours = now.getUTCHours();
-  const prev = new Date(+storageLastFetchDate.get());
+  const prev = new Date(+storage.lastFetchDate.get());
   const isPrevDay = prev.getUTCDate() !== now.getUTCDate();
   const isPrevHours = prev.getUTCHours() < hours;
   const isNewTime = hours >= 8 && (isPrevDay || isPrevHours);
 
-  if (!storageCovidData.has() || isNewTime) {
-    fetch('https://api.covid19api.com/summary').then(async (response) => {
-      dispatch({
-        type: AppActions.SET_COVID_DATA,
-        payload: { isFetch: true, data: await response.json() },
+  if (!storage.covidData.has() || isNewTime) {
+    fetch('https://api.covid19api.com/summary')
+      .then(async (response) => {
+        dispatch({
+          type: AppActions.SET_COVID_DATA,
+          payload: {
+            isFetch: true,
+            isError: false,
+            data: await response.json(),
+          },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: AppActions.SET_COVID_DATA,
+          payload: { isFetch: true, isError: true, data: error },
+        });
       });
-    });
   } else {
     dispatch({
       type: AppActions.SET_COVID_DATA,
       payload: {
         isFetch: false,
-        data: storageCovidData.get(),
+        isError: true,
+        data: storage.covidData.get(),
       },
     });
   }
+};
+
+export const loadGlobalCovidData = () => (dispatch: Dispatch) => {
+  fetch('https://api.covid19api.com/world')
+    .then(async (response) => {
+      dispatch({
+        type: AppActions.SET_GLOBAL_COVID_DATA,
+        payload: {
+          isFetch: true,
+          isError: false,
+          data: await response.json(),
+        },
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: AppActions.SET_GLOBAL_COVID_DATA,
+        payload: { isFetch: true, isError: true, data: error },
+      });
+    });
 };

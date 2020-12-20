@@ -1,4 +1,4 @@
-import defaultState from '../default-state';
+import { defaultState } from '@store';
 import { countriesReducer } from './countries-reducer';
 import { covidReducer } from './covid-reducer';
 
@@ -7,3 +7,8 @@ export function rootReducer(state = defaultState, action: any) {
   currentState = covidReducer(currentState, action);
   return currentState;
 }
+
+export { countriesReducer, covidReducer };
+
+export { setActiveCountry, loadCountries } from './countries-reducer';
+export { loadCovidInfo, loadGlobalCovidData } from './covid-reducer';
