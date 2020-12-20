@@ -64,7 +64,7 @@ function formatCovidData(data: ICountryCovidItem[]) {
   }));
 }
 
-export const setActiveCountry = (payload: string) => (dispatch: Dispatch) => {
+export const setActiveCountry = (payload: string | null) => (dispatch: Dispatch) => {
   dispatch({ type: AppActions.SET_ACTIVE_COUNTRY, payload });
   return fetch(`https://api.covid19api.com/country/${payload}`)
     .then(async (response) => {

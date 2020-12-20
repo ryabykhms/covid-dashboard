@@ -15,12 +15,4 @@ export const AppStore = createStore(
 AppStore.subscribe(() => console.log(AppStore.getState()));
 
 export { defaultState };
-
-export {
-  setActiveCountry,
-  loadCountries,
-  countriesReducer,
-  loadCovidInfo,
-  loadGlobalCovidData,
-  covidReducer,
-} from './reducers';
+export * from './reducers';

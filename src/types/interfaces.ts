@@ -55,6 +55,11 @@ export interface IAppState {
   covidAllCountries: Array<ICovidInfo>;
   globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
+  selectedOptions: {
+    timeInterval: string;
+    activeStatus: string;
+    sizeStats: string;
+  }
 }
 
 export interface IAppComponentProps {

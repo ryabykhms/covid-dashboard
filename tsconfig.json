@@ -21,7 +21,8 @@
       "@components": ["components"],
       "@types": ["types"],
       "@store": ["store"],
-      "@utils": ["utils"]
+      "@utils": ["utils"],
+      "@constants": ["constants"]
     }
   },
   "include": ["src"]
