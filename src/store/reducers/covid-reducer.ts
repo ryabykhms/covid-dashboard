@@ -83,8 +83,11 @@ export function covidReducer(state = defaultState, action: any) {
 
 function formatGlobalCovidData(data: any[]) {
   const lastDay = new Date();
-  return data.map((infoByDay, i) => {
-    const date = getDatePrev(lastDay, i);
+  const length = data.length;
+  const sortData = data.slice();
+  sortData.sort((a, b) => a.TotalConfirmed - b.TotalConfirmed);
+  return sortData.map((infoByDay, i) => {
+    const date = getDatePrev(lastDay, length - i);
     return {
       Confirmed: infoByDay.TotalConfirmed,
       Deaths: infoByDay.TotalDeaths,
