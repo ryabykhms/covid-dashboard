@@ -22,6 +22,12 @@ body {
     gap: 10px;
 }
 
+.main__central-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .main__right-column {
     display: flex;
     flex-direction: column;

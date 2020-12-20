@@ -5,11 +5,12 @@ import './main.css';
 import {
   CountryList,
   MainStats,
-  Chart,
+  ChartComponent,
   Map,
   StatsTable,
   Footer,
   Header,
+  ControlElement,
 } from "@components";
 
 import '../../css-variables/css-variables.css'
@@ -23,10 +24,13 @@ export const MainPage = () => {
                 <MainStats />
                 <CountryList />
               </div>
-              <Map />
+              <div className='main__central-column'>
+                <ControlElement />
+                <Map />
+              </div>
               <div className='main__right-column'>
-                <Chart />
                 <StatsTable />
+                <ChartComponent />
               </div>
             </div>
           <Footer />

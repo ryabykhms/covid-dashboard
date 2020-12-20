@@ -20,7 +20,7 @@ export const CountryList = () => {
         {country.map(({ name, flag, population, alpha2Code }) => (
           <li
             className={`country-list__item ${
-              selectedCountry === name ? 'country-list__active-item' : ''
+              selectedCountry === alpha2Code ? 'country-list__active-item' : ''
             }`}
             key={name}
             onClick={() => setCountry(alpha2Code)}
