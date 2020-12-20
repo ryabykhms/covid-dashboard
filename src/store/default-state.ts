@@ -1,4 +1,4 @@
-import { IAppState } from '../types';
+import { IAppState } from '@types';
 
 export default {
   isCountriesLoaded: false,

@@ -2,6 +2,8 @@ export {
   IAppState,
   IAppComponentProps,
   ICountry,
+  ICovidCase,
+  ICovidInfo,
 } from './interfaces';
 
-export { AppActions } from './enums';
+export { AppActions, LocalStorageKeys } from './enums';

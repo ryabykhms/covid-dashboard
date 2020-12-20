@@ -1,7 +1,7 @@
-import defaultState from '../default-state';
-import { AppActions } from '../../types';
 import { Dispatch } from 'redux';
-import { storageCountries } from '../../utils/local-storage';
+import { defaultState } from '@store';
+import { AppActions } from '@types';
+import { storage } from '@utils';
 
 export function countriesReducer(state = defaultState, action: any) {
   const { payload, type } = action;
@@ -34,7 +34,7 @@ export const setActiveCountry = (payload: string) => (dispatch: Dispatch) => {
 };
 
 export const loadCountries = () => (dispatch: Dispatch) => {
-  if (!storageCountries.has()) {
+  if (!storage.countries.has()) {
     fetch(
       'https://restcountries.eu/rest/v2/all?fields=name;population;flag;alpha2Code'
     ).then(async (response) => {
@@ -46,7 +46,7 @@ export const loadCountries = () => (dispatch: Dispatch) => {
   } else {
     dispatch({
       type: AppActions.SET_COUNTRIES,
-      payload: storageCountries.get(),
+      payload: storage.countries.get(),
     });
   }
 };

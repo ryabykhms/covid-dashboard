@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import './App.css';
+import { connect } from 'react-redux';
 import { MainPage } from '@pages';
 import { Loader } from '@components';
-import { loadCountries, loadCovidInfo } from './store';
-import { connect } from 'react-redux';
-import { IAppState, IAppComponentProps } from './types';
+import { loadCountries, loadCovidInfo } from '@store';
+import { IAppState, IAppComponentProps } from '@types';
+import './App.css';
 
 function AppComponent({
   isCountriesLoaded,

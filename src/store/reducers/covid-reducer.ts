@@ -1,13 +1,7 @@
-import defaultState from '../default-state';
-import { ICountry, AppActions } from '../../types';
 import { Dispatch } from 'redux';
-import {
-  storageCountries,
-  storagePopulation,
-  storageCovidData,
-  storageCovidGlobal,
-  storageLastFetchDate,
-} from '../../utils/local-storage';
+import { defaultState } from '@store';
+import { ICountry, AppActions } from '@types';
+import { storage } from '@utils';
 
 export function covidReducer(state = defaultState, action: any) {
   const { payload, type } = action;
@@ -32,14 +26,14 @@ export function covidReducer(state = defaultState, action: any) {
 
         covidGlobal = formatGlobalFromFetch(population, payload.data.Global);
 
-        storagePopulation.set(population);
-        storageCountries.set(validCountries);
-        storageCovidData.set(covidAllCountries);
-        storageCovidGlobal.set(covidGlobal);
-        storageLastFetchDate.set(fetchDate);
+        storage.population.set(population);
+        storage.countries.set(validCountries);
+        storage.covidData.set(covidAllCountries);
+        storage.covidGlobal.set(covidGlobal);
+        storage.lastFetchDate.set(fetchDate);
       } else {
         covidAllCountries = payload.data;
-        covidGlobal = storageCovidGlobal.get();
+        covidGlobal = storage.covidGlobal.get();
       }
 
       let covidActive: any = state.covidActive;
@@ -156,12 +150,12 @@ function formatDataFromFetch(countries: ICountry[], data: any) {
 export const loadCovidInfo = () => (dispatch: Dispatch) => {
   const now = new Date();
   const hours = now.getUTCHours();
-  const prev = new Date(+storageLastFetchDate.get());
+  const prev = new Date(+storage.lastFetchDate.get());
   const isPrevDay = prev.getUTCDate() !== now.getUTCDate();
   const isPrevHours = prev.getUTCHours() < hours;
   const isNewTime = hours >= 8 && (isPrevDay || isPrevHours);
 
-  if (!storageCovidData.has() || isNewTime) {
+  if (!storage.covidData.has() || isNewTime) {
     fetch('https://api.covid19api.com/summary').then(async (response) => {
       dispatch({
         type: AppActions.SET_COVID_DATA,
@@ -173,7 +167,7 @@ export const loadCovidInfo = () => (dispatch: Dispatch) => {
       type: AppActions.SET_COVID_DATA,
       payload: {
         isFetch: false,
-        data: storageCovidData.get(),
+        data: storage.covidData.get(),
       },
     });
   }

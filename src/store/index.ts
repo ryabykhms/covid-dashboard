@@ -3,9 +3,6 @@ import thunk from 'redux-thunk';
 import defaultState from './default-state';
 import { rootReducer } from './reducers';
 
-export { setActiveCountry, loadCountries } from './reducers/countries-reducer';
-export { loadCovidInfo } from './reducers/covid-reducer';
-
 const composeEnhancers =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -16,3 +13,13 @@ export const AppStore = createStore(
 );
 
 AppStore.subscribe(() => console.log(AppStore.getState()));
+
+export { defaultState };
+
+export {
+  setActiveCountry,
+  loadCountries,
+  countriesReducer,
+  loadCovidInfo,
+  covidReducer,
+} from './reducers';
