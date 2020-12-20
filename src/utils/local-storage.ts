@@ -5,6 +5,7 @@ export const countries = createStorageObject(Keys.COUNTRIES);
 export const lastFetchDate = createStorageObject(Keys.LAST_FETCH_DATE);
 export const covidData = createStorageObject(Keys.COVID_DATA);
 export const covidGlobal = createStorageObject(Keys.COVID_GLOBAL);
+export const globalCovidData = createStorageObject(Keys.GLOBAL_COVID_DATA);
 
 function createStorageObject(key: string) {
   return {

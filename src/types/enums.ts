@@ -2,8 +2,9 @@ export enum AppActions {
   SET_COUNTRIES = 'SET_COUNTRIES',
   SET_ACTIVE_COUNTRY = 'SET_ACTIVE_COUNTRY',
   SET_COVID_DATA = 'SET_COVID_DATA',
-  SET_GLOBAL_COVID = 'SET_GLOBAL_COVID',
+  SET_GLOBAL_COVID_DATA = 'SET_GLOBAL_COVID_DATA',
   SET_ACTIVE_COVID = 'SET_ACTIVE_COVID',
+  SET_COUNTRY_COVID_DATA = 'SET_COUNTRY_COVID_DATA',
 }
 
 export enum LocalStorageKeys {
@@ -12,4 +13,5 @@ export enum LocalStorageKeys {
   LAST_FETCH_DATE = 'mer_last_date',
   COUNTRIES = 'mer_countries',
   EARTH_POPULATION = 'mer_earth_population',
+  GLOBAL_COVID_DATA = 'mer_global_covid_data',
 }

@@ -11,4 +11,4 @@ export function rootReducer(state = defaultState, action: any) {
 export { countriesReducer, covidReducer };
 
 export { setActiveCountry, loadCountries } from './countries-reducer';
-export { loadCovidInfo } from './covid-reducer';
+export { loadCovidInfo, loadGlobalCovidData } from './covid-reducer';

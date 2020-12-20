@@ -14,6 +14,7 @@ export function covidReducer(state = defaultState, action: any) {
       if (payload.isFetch) {
         const fetchDate = new Date().getTime().toString();
         const population = calcEarthPopulation(state.countries);
+
         covidAllCountries = formatDataFromFetch(
           state.countries,
           payload.data.Countries
@@ -49,9 +50,45 @@ export function covidReducer(state = defaultState, action: any) {
         covidActive,
         countries: validCountries,
       };
+
+    case AppActions.SET_GLOBAL_COVID_DATA:
+      let globalCovidData = state.globalCovidData;
+
+      if (payload.isFetch) {
+        globalCovidData = formatGlobalCovidData(payload.data);
+      }
+
+      return {
+        ...state,
+        isGlobalCovidDataLoaded: true,
+        isCountryCovidDataLoaded: true,
+        globalCovidData,
+        selectedData: globalCovidData,
+      };
+
     default:
       return state;
   }
+}
+
+function formatGlobalCovidData(data: any[]) {
+  const lastDay = new Date();
+  return data.map((infoByDay, i) => {
+    const date = getDatePrev(lastDay, i);
+    return {
+      Confirmed: infoByDay.TotalConfirmed,
+      Deaths: infoByDay.TotalDeaths,
+      Recovered: infoByDay.TotalRecovered,
+      Date: date,
+    };
+  });
+}
+
+function getDatePrev(lastDay: Date, countDays: number) {
+  const prevDate = new Date();
+  prevDate.setTime(lastDay.getTime());
+  prevDate.setDate(prevDate.getDate() - countDays);
+  return prevDate;
 }
 
 function getCoutriesSameFromCovid(
@@ -168,6 +205,32 @@ export const loadCovidInfo = () => (dispatch: Dispatch) => {
       payload: {
         isFetch: false,
         data: storage.covidData.get(),
+      },
+    });
+  }
+};
+
+export const loadGlobalCovidData = () => (dispatch: Dispatch) => {
+  const now = new Date();
+  const hours = now.getUTCHours();
+  const prev = new Date(+storage.lastFetchDate.get());
+  const isPrevDay = prev.getUTCDate() !== now.getUTCDate();
+  const isPrevHours = prev.getUTCHours() < hours;
+  const isNewTime = hours >= 8 && (isPrevDay || isPrevHours);
+
+  if (!storage.globalCovidData.has() || isNewTime) {
+    fetch('https://api.covid19api.com/world').then(async (response) => {
+      dispatch({
+        type: AppActions.SET_GLOBAL_COVID_DATA,
+        payload: { isFetch: true, data: await response.json() },
+      });
+    });
+  } else {
+    dispatch({
+      type: AppActions.SET_GLOBAL_COVID_DATA,
+      payload: {
+        isFetch: false,
+        data: storage.globalCovidData.get(),
       },
     });
   }
