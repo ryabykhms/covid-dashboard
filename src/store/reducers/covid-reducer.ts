@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { defaultState } from '@store';
 import { ICountry, AppActions } from '@types';
-import { storage } from '@utils';
+import { storage, func } from '@utils';
 
 export function covidReducer(state = defaultState, action: any) {
   const { payload, type } = action;
@@ -60,8 +60,10 @@ export function covidReducer(state = defaultState, action: any) {
     case AppActions.SET_GLOBAL_COVID_DATA:
       let globalCovidData = state.globalCovidData;
 
+      let population = calcEarthPopulation(state.countries);
+
       if (payload.isFetch && !payload.isError) {
-        globalCovidData = formatGlobalCovidData(payload.data);
+        globalCovidData = formatGlobalCovidData(population, payload.data);
       }
 
       if (payload.isFetch && payload.isError) {
@@ -81,7 +83,7 @@ export function covidReducer(state = defaultState, action: any) {
   }
 }
 
-function formatGlobalCovidData(data: any[]) {
+function formatGlobalCovidData(population: number, data: any[]) {
   const lastDay = new Date();
   const length = data.length;
   const sortData = data.slice();
@@ -92,6 +94,27 @@ function formatGlobalCovidData(data: any[]) {
       Confirmed: infoByDay.TotalConfirmed,
       Deaths: infoByDay.TotalDeaths,
       Recovered: infoByDay.TotalRecovered,
+      ConfirmedPer100: func.calcPer100Thousand(
+        population,
+        infoByDay.TotalConfirmed
+      ),
+      DeathsPer100: func.calcPer100Thousand(population, infoByDay.TotalDeaths),
+      RecoveredPer100: func.calcPer100Thousand(
+        population,
+        infoByDay.TotalRecovered
+      ),
+      NewConfirmed: infoByDay.NewConfirmed,
+      NewDeaths: infoByDay.NewDeaths,
+      NewRecovered: infoByDay.NewRecovered,
+      NewConfirmedPer100: func.calcPer100Thousand(
+        population,
+        infoByDay.NewConfirmed
+      ),
+      NewDeathPer100: func.calcPer100Thousand(population, infoByDay.NewDeaths),
+      NewRecoveredPer100: func.calcPer100Thousand(
+        population,
+        infoByDay.NewRecovered
+      ),
       Date: date,
     };
   });
@@ -139,6 +162,7 @@ function formatGlobalFromFetch(population: number, global: any) {
 
 function createCovidInfoObject(population: number, info: any): any {
   const obj = {
+    population,
     total: {
       confirmed: info.TotalConfirmed,
       deaths: info.TotalDeaths,

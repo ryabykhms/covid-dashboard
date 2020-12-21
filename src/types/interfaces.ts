@@ -12,20 +12,11 @@ export interface ICovidCase {
 }
 
 export interface ICovidInfo {
+  population?: number;
   total: ICovidCase;
   totalPer100: ICovidCase;
   lastDay: ICovidCase;
   lastDayPer100: ICovidCase;
-}
-
-export interface IGlobalCovidItem {
-  NewConfirmed: number;
-  TotalConfirmed: number;
-  NewDeaths: number;
-  TotalDeaths: number;
-  NewRecovered: number;
-  TotalRecovered: number;
-  Data?: Date;
 }
 
 export interface ICountryCovidItem {
@@ -39,6 +30,15 @@ export interface ICountryCovidItem {
   Confirmed: number;
   Deaths: number;
   Recovered: number;
+  ConfirmedPer100?: number;
+  DeathsPer100?: number;
+  RecoveredPer100?: number;
+  NewConfirmed?: number;
+  NewDeaths?: number;
+  NewRecovered?: number;
+  NewConfirmedPer100?: number;
+  NewDeathsPer100?: number;
+  NewRecoveredPer100?: number;
   Active?: number;
   Date: string | Date;
 }
@@ -59,7 +59,7 @@ export interface IAppState {
     timeInterval: string;
     activeStatus: string;
     sizeStats: string;
-  }
+  };
 }
 
 export interface IAppComponentProps {
