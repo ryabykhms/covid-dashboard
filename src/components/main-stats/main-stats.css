@@ -18,12 +18,24 @@
 }
 
 .main-stats__value {
-    color: var(--disturbing-color);
+
 }
 
 .main-stats__active {
     background-color: var(--hover);
     outline: 1px solid var(--disturbing-color);
+}
+
+.main-stats__confirmed {
+    color: var(--disturbing-color);
+}
+
+.main-stats__recovered {
+    color: var(--covered-color);
+}
+
+.main-stats__deaths {
+    color: var(--deaths-color);
 }
 
 @media (max-width: 900px) {
