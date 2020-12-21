@@ -22,7 +22,8 @@
       "@types": ["types"],
       "@store": ["store"],
       "@utils": ["utils"],
-      "@constants": ["constants"]
+      "@constants": ["constants"],
+      "@api": ["api"]
     }
   },
   "include": ["src"]

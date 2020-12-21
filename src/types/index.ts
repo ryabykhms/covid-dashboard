@@ -5,6 +5,9 @@ export {
   ICovidCase,
   ICovidInfo,
   ICountryCovidItem,
+  IFetchResult,
+  IApiSource,
+  IApiEndpoint,
 } from './interfaces';
 
 export { AppActions, LocalStorageKeys } from './enums';

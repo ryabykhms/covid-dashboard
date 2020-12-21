@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { MainPage } from '@pages';
 import { Loader } from '@components';
 import { loadCountries, loadCovidInfo, loadGlobalCovidData } from '@store';
-import { IAppState, IAppComponentProps } from '@types';
+import { IAppState, IAppComponentProps, ICountry } from '@types';
 import './App.css';
 
 function AppComponent({
   isCountriesLoaded,
   isCovidLoaded,
   isGlobalCovidDataLoaded,
+  countries,
   loadCountries,
   loadCovidInfo,
   loadGlobalCovidData,
@@ -22,15 +23,15 @@ function AppComponent({
 
   useEffect(() => {
     if (isCountriesLoaded && !isCovidLoaded) {
-      loadCovidInfo();
+      loadCovidInfo(countries);
     }
-  }, [isCountriesLoaded]);
+  }, [isCountriesLoaded, countries]);
 
   useEffect(() => {
     if (isCovidLoaded && !isGlobalCovidDataLoaded) {
-      loadGlobalCovidData();
+      loadGlobalCovidData(countries);
     }
-  }, [isCovidLoaded]);
+  }, [isCovidLoaded, countries]);
 
   return isCountriesLoaded && isCovidLoaded ? <MainPage /> : <Loader />;
 }
@@ -39,12 +40,15 @@ const mapStateToProps = (state: IAppState) => ({
   isCountriesLoaded: state.isCountriesLoaded,
   isCovidLoaded: state.isCovidLoaded,
   isGlobalCovidDataLoaded: state.isGlobalCovidDataLoaded,
+  countries: state.countries,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadCountries: () => dispatch(loadCountries()),
-  loadCovidInfo: () => dispatch(loadCovidInfo()),
-  loadGlobalCovidData: () => dispatch(loadGlobalCovidData()),
+  loadCovidInfo: (countries: Array<ICountry>) =>
+    dispatch(loadCovidInfo(countries)),
+  loadGlobalCovidData: (countries: Array<ICountry>) =>
+    dispatch(loadGlobalCovidData(countries)),
 });
 
 export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);

@@ -66,7 +66,27 @@ export interface IAppComponentProps {
   isCountriesLoaded: boolean;
   isCovidLoaded: boolean;
   isGlobalCovidDataLoaded: boolean;
+  countries: Array<ICountry>;
   loadCountries: () => void;
-  loadCovidInfo: () => void;
-  loadGlobalCovidData: () => void;
+  loadCovidInfo: (countries: Array<ICountry>) => void;
+  loadGlobalCovidData: (countries: Array<ICountry>) => void;
+}
+
+export interface IFetchResult {
+  type: string;
+  payload: {
+    isFetch: boolean;
+    isError: boolean;
+    data: object | string | [];
+  };
+}
+
+export interface IApiEndpoint {
+  url: string;
+  params: object;
+  handler?: (data: any) => void;
+}
+
+export interface IApiSource {
+  [endpoint: string]: IApiEndpoint;
 }
