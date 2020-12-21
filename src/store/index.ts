@@ -12,7 +12,7 @@ export const AppStore = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-AppStore.subscribe(() => console.log(AppStore.getState()));
+// AppStore.subscribe(() => console.log(AppStore.getState()));
 
 export { defaultState };
 export * from './reducers';

@@ -43,6 +43,12 @@ export interface ICountryCovidItem {
   Date: string | Date;
 }
 
+export interface ISelectedOptions {
+  timeInterval: string;
+  activeStatus: string;
+  sizeStats: string;
+}
+
 export interface IAppState {
   isCountriesLoaded: boolean;
   isCovidLoaded: boolean;
@@ -55,11 +61,7 @@ export interface IAppState {
   covidAllCountries: Array<ICovidInfo>;
   globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
-  selectedOptions: {
-    timeInterval: string;
-    activeStatus: string;
-    sizeStats: string;
-  };
+  selectedOptions: ISelectedOptions;
 }
 
 export interface IAppComponentProps {
