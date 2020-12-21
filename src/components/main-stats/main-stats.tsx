@@ -19,7 +19,6 @@ const switchStatusStats = (status: string | undefined): string => {
     }
     default: return 'main-stats__no-data';
   }
-
 }
 
 const MainStatsComponent = (state: any) => {

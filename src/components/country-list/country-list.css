@@ -57,5 +57,16 @@
   padding: 0 0 0 5px;
 
   font-size: 22px;
+}
+
+.country-list__confirmed {
   color: var(--disturbing-color);
+}
+
+.country-list__recovered {
+  color: var(--covered-color);
+}
+
+.country-list__deaths {
+  color: var(--deaths-color);
 }
