@@ -16,5 +16,6 @@ export default {
     timeInterval: 'all',
     activeStatus: 'confirmed',
     sizeStats: 'all',
-  }
+  },
+  intensivity: null,
 } as IAppState;
