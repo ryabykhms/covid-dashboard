@@ -62,6 +62,7 @@ export interface IAppState {
   globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
   selectedOptions: ISelectedOptions;
+  intensivity: ICovidInfo | null;
 }
 
 export interface IAppComponentProps {
@@ -92,7 +93,6 @@ export interface IApiEndpoint {
 export interface IApiSource {
   [endpoint: string]: IApiEndpoint;
 }
-
 
 export interface IColorChart {
   Confirmed: string;
