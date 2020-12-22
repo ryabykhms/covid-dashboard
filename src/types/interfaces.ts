@@ -20,7 +20,7 @@ export interface ICovidInfo {
 }
 
 export interface ICountryCovidItem {
-  Country?: string /** {@link Country.name} */;
+  Country?: string /** {@link ICountry.name} */;
   CountryCode?: string;
   Province?: string;
   City?: string;
@@ -91,4 +91,20 @@ export interface IApiEndpoint {
 
 export interface IApiSource {
   [endpoint: string]: IApiEndpoint;
+}
+
+
+export interface IColorChart {
+  Confirmed: string;
+  Deaths: string;
+  Recovered: string;
+  ConfirmedPer100: string;
+  DeathsPer100: string;
+  RecoveredPer100: string;
+  NewConfirmed: string;
+  NewDeaths: string;
+  NewRecovered: string;
+  NewConfirmedPer100: string;
+  NewDeathPer100: string;
+  NewRecoveredPer100: string;
 }

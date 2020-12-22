@@ -1,37 +1,37 @@
 import { Dispatch } from 'redux';
 import { AppActions } from '@types';
-import defaultState from '../default-state';
+import { defaultState } from '@store';
 
 export function selectedOptionsReducer(state = defaultState, action: any) {
   const { payload, type } = action;
+  let selectedOptions = state.selectedOptions;
   switch (type) {
     case AppActions.SET_TIME_INTERVAL:
+      selectedOptions = { ...selectedOptions, timeInterval: payload };
       return {
         ...state,
-        selectedOptions: Object.assign(state.selectedOptions, {
-          timeInterval: payload,
-        }),
+        selectedOptions,
       };
-      case AppActions.SET_ACTIVE_STATUS:
+    case AppActions.SET_ACTIVE_STATUS:
+      selectedOptions = { ...selectedOptions, activeStatus: payload };
       return {
         ...state,
-        selectedOptions: Object.assign(state.selectedOptions, {
-          activeStatus: payload,
-        }),
+        selectedOptions,
       };
-      case AppActions.SET_SIZE_STATS:
+    case AppActions.SET_SIZE_STATS:
+      selectedOptions = { ...selectedOptions, sizeStats: payload };
       return {
         ...state,
-        selectedOptions: Object.assign(state.selectedOptions, {
-          sizeStats: payload,
-        }),
+        selectedOptions,
       };
     default:
       return state;
   }
 }
 
-export const setActiveTimeInterval = (payload: string) => (dispatch: Dispatch) => {
+export const setActiveTimeInterval = (payload: string) => (
+  dispatch: Dispatch
+) => {
   dispatch({ type: AppActions.SET_TIME_INTERVAL, payload });
 };
 
