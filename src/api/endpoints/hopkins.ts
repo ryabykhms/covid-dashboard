@@ -15,7 +15,7 @@ export const HOPKINS = {
   },
 
   country: {
-    url: 'https://api.covid19api.com/country/',
+    url: 'https://api.covid19api.com/country/{country}',
     params: { country: null, population: 0 },
     handler: (data: any) => countryDataHandler(data),
   },
