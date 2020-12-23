@@ -105,6 +105,6 @@ export interface IColorChart {
   NewDeaths: string;
   NewRecovered: string;
   NewConfirmedPer100: string;
-  NewDeathPer100: string;
+  NewDeathsPer100: string;
   NewRecoveredPer100: string;
 }
