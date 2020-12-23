@@ -52,3 +52,16 @@
 .tooltip--recovered {
   background: var(--covered-color);
 }
+
+
+
+@media (max-width: 1000px) {
+  .map-container {
+    height: 500px;
+    padding: 0 40px;
+  }
+
+  .leaflet-container {
+    outline: 1px solid var(--main-text-color);
+  }
+}

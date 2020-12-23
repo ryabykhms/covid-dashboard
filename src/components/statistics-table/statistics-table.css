@@ -5,8 +5,9 @@
 }
 
 .stats-table__size-scrollbar {
-  max-height: 200px;
+  max-height: calc((100vh - 33px - 34px - 150px )/ 2);
 }
+
 
 .stats-table__table {
   width: 100%;
@@ -36,4 +37,10 @@
 
 .cell--recovered {
   color: var(--covered-color);
+}
+
+@media (max-width: 1000px) {
+  .stats-table {
+    padding: 0 70px;
+  }
 }

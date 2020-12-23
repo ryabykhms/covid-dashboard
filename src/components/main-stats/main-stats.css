@@ -39,9 +39,3 @@
     color: var(--deaths-color);
     outline: 1px solid var(--deaths-color);
 }
-
-@media (max-width: 900px) {
-    .main-stats {
-        font-size: 16px;
-    }
-}
