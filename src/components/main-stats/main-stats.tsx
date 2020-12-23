@@ -35,11 +35,10 @@ const MainStatsComponent = (state: any) => {
 
   return <div
     className={`main-stats 
-    ${selectedCountry === null ? 'main-stats__active' : ''}`}
+    ${selectedCountry === null ? 'main-stats__active' : ''} ${switchStatusStats(status)}`}
     onClick={() => setCountry(null)}>
     <h2 className="main-stats__title">Global Cases</h2>
-    <p className={`main-stats__value
-    ${switchStatusStats(status)}`}
+    <p className='main-stats__value'
     >
       {stats}
     </p>

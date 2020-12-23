@@ -1,0 +1,12 @@
+.search {
+    width: 100%;
+    height: 68px;
+    padding: 5px;
+
+    background-color: var(--main-bg-color);
+}
+
+.search input {
+    background-color: var(--input-bg-color);
+    color: var(--input-color);
+}

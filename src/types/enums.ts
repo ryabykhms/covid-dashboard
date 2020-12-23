@@ -8,6 +8,7 @@ export enum AppActions {
   SET_TIME_INTERVAL = 'SET_TIME_INTERVAL',
   SET_ACTIVE_STATUS = 'SET_ACTIVE_STATUS',
   SET_SIZE_STATS = 'SET_SIZE_STATS',
+  SET_SEARCH_VALUE = 'SET_SEARCH_VALUE',
 }
 
 export enum LocalStorageKeys {

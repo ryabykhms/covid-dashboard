@@ -21,48 +21,48 @@ export const ControlElement = () => {
   const setStatusSize = (sizeStatus: string) => dispatch(setSizeStats(sizeStatus));
 
   return <div className='control-element'>
-    <div>
-      <label>
+    <div className='control-element__group'>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="time" value="time"
                onChange={ () => setTimeInterval(SELECTED_DATA_OPTIONS.TIME_INTERVAL_ALL) }
                checked={ timeInterval === SELECTED_DATA_OPTIONS.TIME_INTERVAL_ALL } />
         <span className="radio-indicator">All time</span>
       </label>
-      <label>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="time" value="time"
                onChange={ () => setTimeInterval(SELECTED_DATA_OPTIONS.TIME_INTERVAL_LAST_DAY) }
                checked={ timeInterval === SELECTED_DATA_OPTIONS.TIME_INTERVAL_LAST_DAY } />
         <span className="radio-indicator">Last day</span>
       </label>
     </div>
-    <div>
-      <label>
+    <div className='control-element__group'>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="active-status" value="status"
                onChange={ () => setStatusActive(SELECTED_DATA_OPTIONS.ACTIVE_STATUS_CONFIRMED) }
                checked={ activeStatus === SELECTED_DATA_OPTIONS.ACTIVE_STATUS_CONFIRMED } />
         <span className="radio-indicator">Confirmed</span>
       </label>
-      <label>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="active-status" value="status"
                onChange={ () => setStatusActive(SELECTED_DATA_OPTIONS.ACTIVE_STATUS_RECOVERED) }
                checked={ activeStatus === SELECTED_DATA_OPTIONS.ACTIVE_STATUS_RECOVERED } />
         <span className="radio-indicator">Recovered</span>
       </label>
-      <label>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="active-status" value="status"
                onChange={ () => setStatusActive(SELECTED_DATA_OPTIONS.ACTIVE_STATUS_DEATHS) }
                checked={ activeStatus === SELECTED_DATA_OPTIONS.ACTIVE_STATUS_DEATHS } />
         <span className="radio-indicator">Deaths</span>
       </label>
     </div>
-    <div>
-      <label>
+    <div className='control-element__group'>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="active-size" value="size"
                onChange={ () => setStatusSize(SELECTED_DATA_OPTIONS.SIZE_STATUS_ALL) }
                checked={ sizeStats === SELECTED_DATA_OPTIONS.SIZE_STATUS_ALL } />
         <span className="radio-indicator">All people</span>
       </label>
-      <label>
+      <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="active-size" value="size"
                onChange={ () => setStatusSize(SELECTED_DATA_OPTIONS.SIZE_STATUS_100k) }
                checked={ sizeStats === SELECTED_DATA_OPTIONS.SIZE_STATUS_100k } />

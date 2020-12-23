@@ -88,7 +88,7 @@ export const Map = () => {
         selectedOptions
       );
 
-      const colorIndex = intensivityItem.findIndex(
+      const colorIndex = (intensivityItem || []).findIndex(
         (item: any) => current <= item
       );
 

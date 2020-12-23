@@ -17,5 +17,6 @@ export default {
     activeStatus: 'confirmed',
     sizeStats: 'all',
   },
+  searchValue: '',
   intensivity: null,
-} as IAppState;
+} as unknown as IAppState;
