@@ -1,4 +1,4 @@
-import { SELECTED_DATA_OPTIONS } from '@constants';
+import { NoData } from '@components';
 import { IAppState } from '@types';
 import { getOnCurrentOptionsChart } from '@utils';
 import * as React from 'react';
@@ -13,6 +13,12 @@ export const StatsTable = () => {
   );
   const selectedData = useSelector((state: IAppState) => state.selectedData);
   const countries = useSelector((state: IAppState) => state.countries);
+  const isCountryCovidDataFailed = useSelector(
+    (state: IAppState) => state.isCountryCovidDataFailed
+  );
+  const isCountryCovidDataLoaded = useSelector(
+    (state: IAppState) => state.isCountryCovidDataLoaded
+  );
   const selectedOptions = useSelector(
     (state: IAppState) => state.selectedOptions
   );
@@ -148,21 +154,32 @@ export const StatsTable = () => {
 
   return (
     <div className="stats-table">
-      <div className="stats-table__title">
-        {flagUrl && (
-          <img className="stats-table__flag" src={flagUrl} alt={country} />
-        )}
-        <div className="stats-table__country">{country}</div>
-      </div>
-      <SimpleBar forceVisible="false" className="stats-table__size-scrollbar">
-        <Table
-          className="stats-table__table"
-          columns={columns}
-          data={data}
-          initialState={initialState}
-          cellStyles={cellStyles}
-        ></Table>
-      </SimpleBar>
+      {!isCountryCovidDataLoaded ? (
+        'Loading...'
+      ) : isCountryCovidDataFailed ? (
+        <NoData />
+      ) : (
+        <>
+          <div className="stats-table__title">
+            {flagUrl && (
+              <img className="stats-table__flag" src={flagUrl} alt={country} />
+            )}
+            <div className="stats-table__country">{country}</div>
+          </div>
+          <SimpleBar
+            forceVisible="false"
+            className="stats-table__size-scrollbar"
+          >
+            <Table
+              className="stats-table__table"
+              columns={columns}
+              data={data}
+              initialState={initialState}
+              cellStyles={cellStyles}
+            ></Table>
+          </SimpleBar>
+        </>
+      )}
     </div>
   );
 };

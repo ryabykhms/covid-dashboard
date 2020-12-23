@@ -2,12 +2,15 @@
   background-color: var(--main-bg-color);
   height: 50%;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 .stats-table__size-scrollbar {
-  max-height: calc((100vh - 33px - 34px - 150px )/ 2);
+  max-height: calc((100vh - 33px - 34px - 150px) / 2);
 }
-
 
 .stats-table__table {
   width: 100%;

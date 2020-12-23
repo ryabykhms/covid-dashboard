@@ -48,11 +48,14 @@ export function countriesReducer(state = defaultState, action: any) {
     case AppActions.SET_COUNTRY_COVID_DATA:
       let selectedData = state.selectedData;
       let selectedCountry: any = state.selectedCountry;
+      let isCountryCovidDataFailed = state.isCountryCovidDataFailed;
 
       if (!payload.isError) {
         selectedData = payload.data;
+        isCountryCovidDataFailed = false;
       } else {
         selectedData = null;
+        isCountryCovidDataFailed = true;
       }
 
       if (selectedCountry) {
@@ -62,6 +65,7 @@ export function countriesReducer(state = defaultState, action: any) {
       return {
         ...state,
         isCountryCovidDataLoaded: true,
+        isCountryCovidDataFailed,
         selectedData,
       };
 

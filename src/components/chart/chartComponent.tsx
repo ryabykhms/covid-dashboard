@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { IAppState, IColorChart } from '@types';
 import { getOnCurrentOptionsChart } from '@utils';
 import { TooltipTemplate } from './tooltip';
+import { NoData } from '@components';
 
 const COLOR_CHART: IColorChart = {
   Confirmed: '#FF0000',
@@ -34,6 +35,12 @@ const COLOR_CHART: IColorChart = {
 
 export const ChartComponent = () => {
   const selectedData = useSelector((state: IAppState) => state.selectedData);
+  const isCountryCovidDataFailed = useSelector(
+    (state: IAppState) => state.isCountryCovidDataFailed
+  );
+  const isCountryCovidDataLoaded = useSelector(
+    (state: IAppState) => state.isCountryCovidDataLoaded
+  );
 
   const dataWithDates = (selectedData || []).map(
     ({ Date: date, ...props }) => ({
@@ -49,36 +56,44 @@ export const ChartComponent = () => {
 
   return (
     <div className="chart">
-      {/*<div className='chart__wrapper'>*/}
-      <Chart dataSource={dataWithDates} id="chart-country">
-        <CommonSeriesSettings argumentField="Date" type="spline" />
-        <CommonAxisSettings color="#ffffff">
-          <Grid visible={true} />
-        </CommonAxisSettings>
-        <Series
-          valueField={`${currentSelected}`}
-          name={`${currentSelected}`}
-          color={colorChart}
-        />
-        <ArgumentAxis>
-          <Label font={{ color: '#ffffff' }}>
-            <Format type="shortDate" />
-          </Label>
-        </ArgumentAxis>
+      {!isCountryCovidDataLoaded ? (
+        'Loading...'
+      ) : isCountryCovidDataFailed ? (
+        <NoData />
+      ) : (
+        <>
+          {/*<div className='chart__wrapper'>*/}
+          <Chart dataSource={dataWithDates} id="chart-country">
+            <CommonSeriesSettings argumentField="Date" type="spline" />
+            <CommonAxisSettings color="#ffffff">
+              <Grid visible={true} />
+            </CommonAxisSettings>
+            <Series
+              valueField={`${currentSelected}`}
+              name={`${currentSelected}`}
+              color={colorChart}
+            />
+            <ArgumentAxis>
+              <Label font={{ color: '#ffffff' }}>
+                <Format type="shortDate" />
+              </Label>
+            </ArgumentAxis>
 
-        <ValueAxis allowDecimals>
-          <Label font={{ color: '#ffffff' }}>
-            <Format type="largeNumber" />
-          </Label>
-        </ValueAxis>
-        <Tooltip enabled={true} contentRender={TooltipTemplate} />
-        <AdaptiveLayout
-          keepLabels={false}
-          // height={}
-          width={100}
-        />
-      </Chart>
-      {/*</div>*/}
+            <ValueAxis allowDecimals>
+              <Label font={{ color: '#ffffff' }}>
+                <Format type="largeNumber" />
+              </Label>
+            </ValueAxis>
+            <Tooltip enabled={true} contentRender={TooltipTemplate} />
+            <AdaptiveLayout
+              keepLabels={false}
+              // height={}
+              width={100}
+            />
+          </Chart>
+          {/*</div>*/}
+        </>
+      )}
     </div>
   );
 };
