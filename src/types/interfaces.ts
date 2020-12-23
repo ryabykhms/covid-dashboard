@@ -62,6 +62,7 @@ export interface IAppState {
   globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
   selectedOptions: ISelectedOptions;
+  searchValue: string;
 }
 
 export interface IAppComponentProps {

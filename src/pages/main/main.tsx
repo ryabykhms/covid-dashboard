@@ -11,6 +11,7 @@ import {
   Footer,
   Header,
   ControlElement,
+  Search,
 } from "@components";
 
 import '../../css-variables/css-variables.css'
@@ -22,6 +23,7 @@ export const MainPage = () => {
             <div className='main__wrapper'>
               <div className='main__left-column'>
                 <MainStats />
+                <Search />
                 <CountryList />
               </div>
               <div className='main__central-column'>
