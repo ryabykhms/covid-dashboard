@@ -1,6 +1,6 @@
 .country-list {
   margin: 0;
-  padding: 3px;
+  padding: 0;
 
 
   display: flex;
@@ -14,10 +14,11 @@
 }
 
 .country-list__size-scrollbar {
-  height: calc(100vh - 68px - 20px - 100px - 10px);
+  height: calc(100vh - 68px - 20px - 100px - 25px - 68px);
 }
 
 .country-list li {
+  padding: 5px;
   display: flex;
   gap: 5px;
 }
@@ -50,6 +51,8 @@
 .country-list__row {
   display: flex;
   flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
 }
 
 .country-list__cases-count {
