@@ -58,7 +58,9 @@ export interface IAppState {
   selectedCountry: string | null;
   covidActive: ICovidInfo | null;
   covidGlobal: ICovidInfo | null;
-  covidAllCountries: Array<ICovidInfo>;
+  covidAllCountries: {
+   [key: string]: ICovidInfo,
+  };
   globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
   selectedOptions: ISelectedOptions;
@@ -108,4 +110,12 @@ export interface IColorChart {
   NewConfirmedPer100: string;
   NewDeathPer100: string;
   NewRecoveredPer100: string;
+}
+
+export interface ICountryForRender {
+  name: string,
+  flag: string,
+  alpha2Code: string,
+  stats?: number,
+  status?: string,
 }

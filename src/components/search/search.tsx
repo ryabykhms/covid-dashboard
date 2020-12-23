@@ -5,7 +5,6 @@ import {useDispatch} from "react-redux";
 import { setSearchValue } from "@store";
 
 export const Search = () => {
-
   const dispatch = useDispatch();
   const setSearch = (evt: FormEvent) => {
     const target = evt.target as HTMLFormElement;
