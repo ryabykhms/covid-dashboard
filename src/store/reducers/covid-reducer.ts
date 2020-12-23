@@ -12,16 +12,19 @@ export function covidReducer(state = defaultState, action: any) {
       let covidGlobal = state.covidGlobal;
       let validCountries: Array<ICountry> = state.countries;
       let intensivity = state.intensivity;
+      let isCovidFailed = state.isCovidFailed;
 
       if (payload.isFetch && !payload.isError) {
         covidAllCountries = payload.data.covidAllCountries;
         validCountries = payload.data.validCountries;
         covidGlobal = payload.data.covidGlobal;
         intensivity = payload.data.intensivity;
+        isCovidFailed = false;
       }
 
       if (payload.isFetch && payload.isError) {
         covidGlobal = null;
+        isCovidFailed = true;
       }
 
       if (!payload.isFetch) {
@@ -38,6 +41,7 @@ export function covidReducer(state = defaultState, action: any) {
       return {
         ...state,
         isCovidLoaded: true,
+        isCovidFailed,
         covidAllCountries,
         covidGlobal,
         covidActive,

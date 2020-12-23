@@ -8,3 +8,4 @@ export * from './header';
 export * from './footer';
 export * from './control-element';
 export * from './search';
+export * from './no-data';
