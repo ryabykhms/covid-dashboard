@@ -26,17 +26,16 @@ const switchStatusStats = (status: string | undefined): string => {
 export const CountryList = (state: any) => {
   const covidAllCountries = useSelector((state: IAppState) => state.covidAllCountries);
   const selectedOptions = useSelector((state: IAppState) => state.selectedOptions);
-  console.log(selectedOptions.activeStatus)
 
   const country = useSelector((state: IAppState) => state.countries);
-  const selectedCountry = useSelector(
-    (state: IAppState) => state.selectedCountry
-  );
+  const selectedCountry = useSelector((state: IAppState) => state.selectedCountry);
+
+  const searchValue = useSelector((state: IAppState) => state.searchValue);
 
   const dispatch = useDispatch();
   const setCountry = (name: string) => dispatch(setActiveCountry(name));
 
-  const result: ICountryForRender[]  = country
+  let result: ICountryForRender[]  = country
     .map(({ name, flag, alpha2Code }) => {
       const alpha2 = alpha2Code as keyof ICovidInfo;
       const [stats, status] = getStatsOnCurrentOptions(covidAllCountries[alpha2], selectedOptions);
@@ -48,10 +47,17 @@ export const CountryList = (state: any) => {
         status: status,
       }
     }).sort((a, b) => {
-      let argA = a.stats as number;
-      let argB = b.stats as number;
+      const argA = a.stats as number;
+      const argB = b.stats as number;
       return argB - argA;
     })
+
+  if (searchValue) {
+    const reg = new RegExp(`^${searchValue}`, 'i')
+    result = result.filter((current) => {
+      return current.name.match(reg);
+    })
+  }
 
   return (
     <ul className="country-list">
@@ -77,7 +83,6 @@ export const CountryList = (state: any) => {
             </li>
           )
         })}
-
       </SimpleBar>
     </ul>
   );
