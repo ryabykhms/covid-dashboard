@@ -62,7 +62,6 @@ export const Map = () => {
     const alpha2Code = feature.properties.iso_a2;
 
     if (alpha2Code === selectedCountry) {
-      console.log(alpha2Code);
       layer.bindTooltip(() => labelPerCountry(feature), { permanent: true });
     } else {
       layer.bindTooltip(() => labelPerCountry(feature));

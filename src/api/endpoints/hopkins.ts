@@ -50,7 +50,7 @@ function addNewAndPer100ThousandData(
     NewDeaths,
     NewRecovered,
     NewConfirmedPer100: func.calcPer100Thousand(population, NewConfirmed),
-    NewDeathPer100: func.calcPer100Thousand(population, NewDeaths),
+    NewDeathsPer100: func.calcPer100Thousand(population, NewDeaths),
     NewRecoveredPer100: func.calcPer100Thousand(population, NewRecovered),
   };
 
@@ -299,7 +299,7 @@ function formatGlobalCovidData(population: number, data: any[]) {
         population,
         infoByDay.NewConfirmed
       ),
-      NewDeathPer100: func.calcPer100Thousand(population, infoByDay.NewDeaths),
+      NewDeathsPer100: func.calcPer100Thousand(population, infoByDay.NewDeaths),
       NewRecoveredPer100: func.calcPer100Thousand(
         population,
         infoByDay.NewRecovered
