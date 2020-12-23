@@ -2,5 +2,7 @@ import * as React from 'react';
 import './header.css';
 
 export const Header = () => {
-  return <div className='header'>Header</div>
+  return <header className='header'>
+    <h1 className="header__title">COVID-19 Dashboard</h1>
+  </header>
 }

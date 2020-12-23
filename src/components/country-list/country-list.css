@@ -73,3 +73,9 @@
 .country-list__deaths {
   color: var(--deaths-color);
 }
+
+@media (max-width: 1000px) {
+  .country-list {
+    padding: 0 70px;
+  }
+}

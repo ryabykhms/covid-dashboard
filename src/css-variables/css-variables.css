@@ -1,5 +1,5 @@
 :root {
-    --main-text-color: #bdbdbd;
+    --main-text-color: #ffffff;
     --main-bg-color: #404040;
     --hover: #242424;
     --disturbing-color: #FF0000;
@@ -8,6 +8,4 @@
 
     --input-bg-color: #8E8E8E;
     --input-color: #000000;
-
-    --table-width: '900px';
 }
