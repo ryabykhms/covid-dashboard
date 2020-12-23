@@ -16,6 +16,7 @@ export function covidReducer(state = defaultState, action: any) {
 
       if (payload.isFetch && !payload.isError) {
         covidAllCountries = payload.data.covidAllCountries;
+
         validCountries = payload.data.validCountries;
         covidGlobal = payload.data.covidGlobal;
         intensivity = payload.data.intensivity;

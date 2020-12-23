@@ -3,11 +3,11 @@ import { api } from '@api';
 import { countriesReducer } from './countries-reducer';
 import { covidReducer } from './covid-reducer';
 import { selectedOptionsReducer } from './selected-options-reducer';
-import { searchReducer } from './search-reducer'
+import { searchReducer } from './search-reducer';
 
 export function rootReducer(state = defaultState, action: any) {
-  const { HOPKINS, RESTCOUNTRIES } = api.endpoints;
-  api.setCovidDataSource(HOPKINS);
+  const { HOPKINS, DISEASE, RESTCOUNTRIES } = api.endpoints;
+  api.setCovidDataSource(DISEASE);
   api.setCountriesDataSource(RESTCOUNTRIES);
 
   let currentState: any = countriesReducer(state, action);
