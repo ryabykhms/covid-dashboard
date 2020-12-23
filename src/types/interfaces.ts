@@ -91,8 +91,8 @@ export interface IFetchResult {
 
 export interface IApiEndpoint {
   url: string;
-  params: object;
-  handler?: (data: any) => void;
+  params?: object;
+  handler?: (data: any, addData?: any) => void;
 }
 
 export interface IApiSource {

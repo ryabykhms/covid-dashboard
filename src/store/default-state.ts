@@ -20,4 +20,5 @@ export default ({
   searchValue: '',
   intensivity: null,
   isCountryCovidDataFailed: false,
+  isCovidFailed: false,
 } as unknown) as IAppState;

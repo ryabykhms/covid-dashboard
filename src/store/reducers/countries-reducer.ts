@@ -27,19 +27,22 @@ export function countriesReducer(state = defaultState, action: any) {
     case AppActions.SET_ACTIVE_COUNTRY:
       let covidActive = state.covidActive;
       let selected = state.selectedData;
+      let isCountryCovidDataLoaded = state.isCountryCovidDataLoaded;
 
       if (payload) {
         populationMain =
           state.covidAllCountries[payload.toUpperCase()].population;
         covidActive = state.covidAllCountries[payload.toUpperCase()];
+        isCountryCovidDataLoaded = false;
       } else {
+        isCountryCovidDataLoaded = true;
         covidActive = state.covidGlobal;
         selected = state.globalCovidData;
       }
 
       return {
         ...state,
-        isCountryCovidDataLoaded: false,
+        isCountryCovidDataLoaded,
         selectedCountry: payload,
         covidActive,
         selectedData: selected,
