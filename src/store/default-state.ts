@@ -18,4 +18,5 @@ export default {
     sizeStats: 'all',
   },
   searchValue: '',
-} as IAppState;
+  intensivity: null,
+} as unknown as IAppState;

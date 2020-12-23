@@ -6,6 +6,7 @@ export const lastFetchDate = createStorageObject(Keys.LAST_FETCH_DATE);
 export const covidData = createStorageObject(Keys.COVID_DATA);
 export const covidGlobal = createStorageObject(Keys.COVID_GLOBAL);
 export const globalCovidData = createStorageObject(Keys.GLOBAL_COVID_DATA);
+export const intensivity = createStorageObject(Keys.INTENSIVITY);
 
 function createStorageObject(key: string) {
   return {

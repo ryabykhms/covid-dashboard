@@ -65,6 +65,7 @@ export interface IAppState {
   selectedData: ICountryCovidItem[] | null;
   selectedOptions: ISelectedOptions;
   searchValue: string;
+  intensivity: ICovidInfo | null;
 }
 
 export interface IAppComponentProps {
@@ -96,7 +97,6 @@ export interface IApiSource {
   [endpoint: string]: IApiEndpoint;
 }
 
-
 export interface IColorChart {
   Confirmed: string;
   Deaths: string;
@@ -108,7 +108,7 @@ export interface IColorChart {
   NewDeaths: string;
   NewRecovered: string;
   NewConfirmedPer100: string;
-  NewDeathPer100: string;
+  NewDeathsPer100: string;
   NewRecoveredPer100: string;
 }
 
