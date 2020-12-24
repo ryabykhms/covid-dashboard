@@ -4,6 +4,7 @@ import { countriesReducer } from './countries-reducer';
 import { covidReducer } from './covid-reducer';
 import { selectedOptionsReducer } from './selected-options-reducer';
 import { searchReducer } from './search-reducer'
+import { fullScreenElementReducer } from "./full-screen-element-reducer";
 
 export function rootReducer(state = defaultState, action: any) {
   const { HOPKINS, RESTCOUNTRIES } = api.endpoints;
@@ -14,6 +15,7 @@ export function rootReducer(state = defaultState, action: any) {
   currentState = covidReducer(currentState, action);
   currentState = selectedOptionsReducer(currentState, action);
   currentState = searchReducer(currentState, action);
+  currentState = fullScreenElementReducer(currentState, action);
   return currentState;
 }
 
@@ -23,3 +25,4 @@ export { setActiveCountry, loadCountries } from './countries-reducer';
 export { loadCovidInfo, loadGlobalCovidData } from './covid-reducer';
 export * from './selected-options-reducer';
 export * from './search-reducer';
+export * from './full-screen-element-reducer';

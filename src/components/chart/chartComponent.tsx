@@ -12,10 +12,14 @@ import Chart, {
   Tooltip,
   AdaptiveLayout,
 } from 'devextreme-react/chart';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { IAppState, IColorChart } from '@types';
 import { getOnCurrentOptionsChart } from '@utils';
 import { TooltipTemplate } from './tooltip';
+import {useRef} from "react";
+import {setFullScreenElementValue} from "@store";
+import {FullScreenMode} from "../full-screen-mode";
+import {render} from "react-dom";
 
 const COLOR_CHART: IColorChart = {
   Confirmed: '#FF0000',
@@ -35,6 +39,9 @@ const COLOR_CHART: IColorChart = {
 export const ChartComponent = () => {
   const selectedData = useSelector((state: IAppState) => state.selectedData);
 
+  const isFullScreen = useSelector((state: IAppState) => state.fullScreenElement);
+console.log(isFullScreen)
+
   const dataWithDates = (selectedData || []).map(
     ({ Date: date, ...props }) => ({
       ...props,
@@ -47,9 +54,18 @@ export const ChartComponent = () => {
   const currentSelected = getOnCurrentOptionsChart(selectedOptions);
   const colorChart: string = COLOR_CHART[currentSelected as keyof IColorChart];
 
+  const chart = useRef(null);
+  const dispatch = useDispatch();
+
+  const toggle = () => {
+    dispatch(setFullScreenElementValue());
+
+    (chart.current as unknown as HTMLElement).classList.toggle('chart__fullscreen');
+  }
+
   return (
-    <div className="chart">
-      {/*<div className='chart__wrapper'>*/}
+    <div className="chart" ref={chart}>
+      <FullScreenMode click={ toggle } />
       <Chart dataSource={dataWithDates} id="chart-country">
         <CommonSeriesSettings argumentField="Date" type="spline" />
         <CommonAxisSettings color="#ffffff">
@@ -74,11 +90,9 @@ export const ChartComponent = () => {
         <Tooltip enabled={true} contentRender={TooltipTemplate} />
         <AdaptiveLayout
           keepLabels={false}
-          // height={}
           width={100}
         />
       </Chart>
-      {/*</div>*/}
     </div>
   );
 };

@@ -26,6 +26,7 @@
 
 .footer__link-rss {
     margin: 0 10px;
+    text-decoration: none;
 }
 
 .footer__date {
@@ -34,6 +35,7 @@
 
 .footer__link {
     display: flex;
+    text-decoration: none;
 }
 
 .footer__link:hover {

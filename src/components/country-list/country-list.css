@@ -1,4 +1,6 @@
 .country-list {
+  position: relative;
+
   margin: 0;
   padding: 0;
 
@@ -13,8 +15,12 @@
   background-color: var(--main-bg-color);
 }
 
+.country-list__title {
+  text-align: center;
+}
+
 .country-list__size-scrollbar {
-  height: calc(100vh - 68px - 20px - 100px - 25px - 68px);
+  height: calc(100vh - 68px - 20px - 100px - 25px - 68px - 40px);
 }
 
 .country-list li {
@@ -74,8 +80,42 @@
   color: var(--deaths-color);
 }
 
+
+
+
+.country-list__fullscreen {
+  position: absolute;
+  padding: 0 70px;
+
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  overflow: hidden;
+
+  z-index: 1100;
+}
+
+.country-list__fullscreen .country-list__size-scrollbar {
+  height: 100%;
+}
+
 @media (max-width: 1000px) {
   .country-list {
-    padding: 0 70px;
+    padding: 0 70px 50px;
+  }
+
+  .country-list__fullscreen {
+    padding: 70px 0 50px 0;
+  }
+}
+
+@media (max-width: 740px) {
+  .country-list__fullscreen {
+    padding: 120px 0 50px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .country-list__fullscreen {
+    padding: 170px 0 50px 0;
   }
 }

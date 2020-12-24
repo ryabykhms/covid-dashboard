@@ -9,6 +9,7 @@ export enum AppActions {
   SET_ACTIVE_STATUS = 'SET_ACTIVE_STATUS',
   SET_SIZE_STATS = 'SET_SIZE_STATS',
   SET_SEARCH_VALUE = 'SET_SEARCH_VALUE',
+  SET_FULL_SCREEN = 'SET_FULL_SCREEN',
 }
 
 export enum LocalStorageKeys {

@@ -6,6 +6,11 @@ import { useSelector } from 'react-redux';
 import SimpleBar from 'simplebar-react';
 import './statistics-table.css';
 import Table from './table';
+import { useRef } from "react";
+import { setFullScreenElementValue } from "@store";
+import { dispatch } from "jest-circus/build/state";
+import { useDispatch } from "react-redux";
+import {FullScreenMode} from "../full-screen-mode";
 
 export const StatsTable = () => {
   const selectedCountry = useSelector(
@@ -146,8 +151,17 @@ export const StatsTable = () => {
     )?.flag;
   }
 
+  const table = useRef(null);
+  const dispatch = useDispatch();
+
+  const toggle = () => {
+    dispatch(setFullScreenElementValue());
+    (table.current as unknown as HTMLElement).classList.toggle('stats-table__fullscreen');
+  }
+
   return (
-    <div className="stats-table">
+    <div className="stats-table" ref={table}>
+      <FullScreenMode click={ toggle } />
       <div className="stats-table__title">
         {flagUrl && (
           <img className="stats-table__flag" src={flagUrl} alt={country} />

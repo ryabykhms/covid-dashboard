@@ -19,4 +19,5 @@ export default {
   },
   searchValue: '',
   intensivity: null,
+  fullScreenElement: false,
 } as unknown as IAppState;

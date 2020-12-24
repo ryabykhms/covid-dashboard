@@ -3,10 +3,16 @@ import './country-list.css';
 import { useDispatch, useSelector } from 'react-redux';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
-import { IAppState, ICovidInfo, ICountryForRender } from '@types';
-import { setActiveCountry } from '@store';
+import {
+  IAppState,
+  ICovidInfo,
+  ICountryForRender
+} from '@types';
+import {setActiveCountry, setFullScreenElementValue} from '@store';
 import { getStatsOnCurrentOptions } from "@utils";
 import { SELECTED_DATA_OPTIONS } from "@constants";
+import { FullScreenMode } from "../full-screen-mode";
+import {SyntheticEvent, useRef} from "react";
 
 const switchStatusStats = (status: string | undefined): string => {
   switch (status) {
@@ -23,7 +29,7 @@ const switchStatusStats = (status: string | undefined): string => {
   }
 }
 
-export const CountryList = (state: any) => {
+export const CountryList = () => {
   const covidAllCountries = useSelector((state: IAppState) => state.covidAllCountries);
   const selectedOptions = useSelector((state: IAppState) => state.selectedOptions);
 
@@ -59,8 +65,17 @@ export const CountryList = (state: any) => {
     })
   }
 
+  const list = useRef(null);
+
+  const toggle = () => {
+    dispatch(setFullScreenElementValue());
+    (list.current as unknown as HTMLElement).classList.toggle('country-list__fullscreen');
+  }
+
   return (
-    <ul className="country-list">
+    <ul className="country-list" ref={list} >
+      <h2 className="country-list__title">World</h2>
+      <FullScreenMode click={ toggle } />
       <SimpleBar forceVisible="false" className="country-list__size-scrollbar">
         {result.map(({name, status, alpha2Code, flag, stats}) => {
           return (
