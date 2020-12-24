@@ -27,15 +27,15 @@
 
 .main-stats__confirmed {
     color: var(--disturbing-color);
-    outline: 1px solid var(--disturbing-color);
+    border: 1px solid var(--disturbing-color);
 }
 
 .main-stats__recovered {
     color: var(--covered-color);
-    outline: 1px solid var(--covered-color);
+    border: 1px solid var(--covered-color);
 }
 
 .main-stats__deaths {
     color: var(--deaths-color);
-    outline: 1px solid var(--deaths-color);
+    border: 1px solid var(--deaths-color);
 }

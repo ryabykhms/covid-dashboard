@@ -19,6 +19,7 @@ export default ({
   },
   searchValue: '',
   intensivity: null,
+  fullScreenElement: false,
   isCountryCovidDataFailed: false,
   isCovidFailed: false,
 } as unknown) as IAppState;

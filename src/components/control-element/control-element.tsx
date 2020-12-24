@@ -14,13 +14,15 @@ export const ControlElement = () => {
   const activeStatus = useSelector((state: IAppState) => state.selectedOptions.activeStatus);
   const sizeStats = useSelector((state: IAppState) => state.selectedOptions.sizeStats);
 
+  const isFullScreen = useSelector((state: IAppState) => state.fullScreenElement);
+
   const dispatch = useDispatch();
 
   const setTimeInterval = (timeInterval: string) => dispatch(setActiveTimeInterval(timeInterval));
   const setStatusActive = (activeStatus: string) => dispatch(setActiveStatus(activeStatus));
   const setStatusSize = (sizeStatus: string) => dispatch(setSizeStats(sizeStatus));
 
-  return <div className='control-element'>
+  return <div className={`control-element ${isFullScreen ? 'control-element__full-screen' : ''}`}>
     <div className='control-element__group'>
       <label className="control-element__item">
         <input className="visually-hidden" type="radio" name="time" value="time"

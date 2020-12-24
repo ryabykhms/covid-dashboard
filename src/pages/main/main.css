@@ -3,6 +3,7 @@ body {
 }
 
 .main__wrapper {
+    position: relative;
     max-width: 1800px;
     height: calc(100vh - 68px);
 

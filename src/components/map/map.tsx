@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MapContainer, GeoJSON } from 'react-leaflet';
-import { setActiveCountry } from '@store';
+import {setActiveCountry, setFullScreenElementValue} from '@store';
 import { IAppState } from '@types';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
@@ -9,6 +9,8 @@ import geoJson from './countries.json';
 import L, { Layer } from 'leaflet';
 import { getStatsOnCurrentOptions } from '@utils';
 import Legend from './legend';
+import {useRef} from "react";
+import {FullScreenMode} from "../full-screen-mode";
 
 interface IGeoFeature {
   type: string;
@@ -123,8 +125,17 @@ export const Map = () => {
   const bounds = L.latLngBounds(southWest, northEast);
 
   const key = JSON.stringify(selectedOptions) + (selectedCountry || 'null');
+
+  const map = useRef(null);
+
+  const toggle = () => {
+    dispatch(setFullScreenElementValue());
+    (map.current as unknown as HTMLElement).classList.toggle('map-container__full-screen');
+  }
+
   return (
-    <div className="map-container">
+    <div className="map-container" ref={map}>
+      <FullScreenMode click={ toggle } />
       <MapContainer
         style={{ height: '100%', width: '100%' }}
         center={[0, 0]}
