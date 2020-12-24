@@ -12,16 +12,15 @@ import Chart, {
   Tooltip,
   AdaptiveLayout,
 } from 'devextreme-react/chart';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAppState, IColorChart } from '@types';
 import { getOnCurrentOptionsChart } from '@utils';
 import { TooltipTemplate } from './tooltip';
-import {useRef} from "react";
-import {setFullScreenElementValue} from "@store";
-import {FullScreenMode} from "../full-screen-mode";
-import {render} from "react-dom";
+import { useRef } from 'react';
+import { setFullScreenElementValue } from '@store';
+import { FullScreenMode } from '../full-screen-mode';
+import { render } from 'react-dom';
 import { NoData } from '@components';
-
 
 const COLOR_CHART: IColorChart = {
   Confirmed: '#FF0000',
@@ -47,8 +46,9 @@ export const ChartComponent = () => {
     (state: IAppState) => state.isCountryCovidDataLoaded
   );
 
-  const isFullScreen = useSelector((state: IAppState) => state.fullScreenElement);
-console.log(isFullScreen)
+  const isFullScreen = useSelector(
+    (state: IAppState) => state.fullScreenElement
+  );
 
   const dataWithDates = (selectedData || []).map(
     ({ Date: date, ...props }) => ({
@@ -68,48 +68,46 @@ console.log(isFullScreen)
   const toggle = () => {
     dispatch(setFullScreenElementValue());
 
-    (chart.current as unknown as HTMLElement).classList.toggle('chart__fullscreen');
-  }
+    ((chart.current as unknown) as HTMLElement).classList.toggle(
+      'chart__fullscreen'
+    );
+  };
 
   return (
-
     <div className="chart" ref={chart}>
       {!isCountryCovidDataLoaded ? (
         'Loading...'
       ) : isCountryCovidDataFailed ? (
         <NoData />
       ) : (
-      <React.Fragment>
-        <FullScreenMode click={ toggle } />
-        <Chart dataSource={dataWithDates} id="chart-country">
-          <CommonSeriesSettings argumentField="Date" type="spline" />
-          <CommonAxisSettings color="#ffffff">
-            <Grid visible={true} />
-          </CommonAxisSettings>
-          <Series
-            valueField={`${currentSelected}`}
-            name={`${currentSelected}`}
-            color={colorChart}
-          />
-          <ArgumentAxis>
-            <Label font={{ color: '#ffffff' }}>
-              <Format type="shortDate" />
-            </Label>
-          </ArgumentAxis>
+        <React.Fragment>
+          <FullScreenMode click={toggle} />
+          <Chart dataSource={dataWithDates} id="chart-country">
+            <CommonSeriesSettings argumentField="Date" type="spline" />
+            <CommonAxisSettings color="#ffffff">
+              <Grid visible={true} />
+            </CommonAxisSettings>
+            <Series
+              valueField={`${currentSelected}`}
+              name={`${currentSelected}`}
+              color={colorChart}
+            />
+            <ArgumentAxis>
+              <Label font={{ color: '#ffffff' }}>
+                <Format type="shortDate" />
+              </Label>
+            </ArgumentAxis>
 
-          <ValueAxis allowDecimals>
-            <Label font={{ color: '#ffffff' }}>
-              <Format type="largeNumber" />
-            </Label>
-          </ValueAxis>
-          <Tooltip enabled={true} contentRender={TooltipTemplate} />
-          <AdaptiveLayout
-            keepLabels={false}
-            width={100}
-          />
-        </Chart>
-      </React.Fragment>
-        )}
+            <ValueAxis allowDecimals>
+              <Label font={{ color: '#ffffff' }}>
+                <Format type="largeNumber" />
+              </Label>
+            </ValueAxis>
+            <Tooltip enabled={true} contentRender={TooltipTemplate} />
+            <AdaptiveLayout keepLabels={false} width={100} />
+          </Chart>
+        </React.Fragment>
+      )}
     </div>
   );
 };
