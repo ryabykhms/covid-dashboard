@@ -60,6 +60,18 @@ export const Map = () => {
     return `<div>${name}</div><div class="uc-first">${covidInfo}</div>`;
   };
 
+  const colorsObject: any = {
+    confirmed: ['#FEB24C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'],
+
+    deaths: ['#fff', '#d4d1d1', '#a5a3a3', '#777575', '#4b4949'],
+
+    recovered: ['#dbf5d8', '#abeea3', '#82ec76', '#55c549', '#329D27'],
+  };
+
+  const colors = selectedOptions
+    ? colorsObject[selectedOptions.activeStatus]
+    : colorsObject.confirmed;
+
   const onEachCountry = (feature: any, layer: Layer) => {
     const alpha2Code = feature.properties.iso_a2;
 
@@ -70,7 +82,7 @@ export const Map = () => {
     }
 
     (layer as any).setStyle({
-      fillColor: '#FEB24C',
+      fillColor: colors[0],
       fillOpacity: 1,
       color: 'red',
       weight: 1,
@@ -94,29 +106,12 @@ export const Map = () => {
         (item: any) => current <= item
       );
 
-      let color = '#FEB24C';
-      switch (colorIndex) {
-        case -1:
-        case 4: {
-          color = '#800026';
-          break;
-        }
-        case 3: {
-          color = '#BD0026';
-          break;
-        }
-        case 2: {
-          color = '#E31A1C';
-          break;
-        }
-        case 1: {
-          color = '#FC4E2A';
-          break;
-        }
-        case 0: {
-          color = '#FEB24C';
-          break;
-        }
+      let color = colors[0];
+
+      if (colorIndex === -1) {
+        color = colors[colors.length - 1];
+      } else {
+        color = colors[colorIndex];
       }
 
       (layer as any).setStyle({
@@ -155,7 +150,7 @@ export const Map = () => {
           onEachFeature={onEachCountry}
         />
 
-        <Legend intensivity={intensivityItem} />
+        <Legend intensivity={intensivityItem} colors={colors} />
       </MapContainer>
     </div>
   );

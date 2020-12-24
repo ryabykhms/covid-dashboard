@@ -52,14 +52,16 @@ export interface ISelectedOptions {
 export interface IAppState {
   isCountriesLoaded: boolean;
   isCovidLoaded: boolean;
+  isCovidFailed: boolean;
   isGlobalCovidDataLoaded: boolean;
   isCountryCovidDataLoaded: boolean;
+  isCountryCovidDataFailed: boolean;
   countries: Array<ICountry>;
   selectedCountry: string | null;
   covidActive: ICovidInfo | null;
   covidGlobal: ICovidInfo | null;
   covidAllCountries: {
-   [key: string]: ICovidInfo,
+    [key: string]: ICovidInfo;
   };
   globalCovidData: ICountryCovidItem[] | null;
   selectedData: ICountryCovidItem[] | null;
@@ -90,8 +92,8 @@ export interface IFetchResult {
 
 export interface IApiEndpoint {
   url: string;
-  params: object;
-  handler?: (data: any) => void;
+  params?: object;
+  handler?: (data: any, addData?: any) => void;
 }
 
 export interface IApiSource {
@@ -114,9 +116,9 @@ export interface IColorChart {
 }
 
 export interface ICountryForRender {
-  name: string,
-  flag: string,
-  alpha2Code: string,
-  stats?: number,
-  status?: string,
+  name: string;
+  flag: string;
+  alpha2Code: string;
+  stats?: number;
+  status?: string;
 }

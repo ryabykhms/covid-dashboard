@@ -1,7 +1,8 @@
 import { IApiEndpoint, IApiSource, IFetchResult } from '@types';
 import * as endpoints from './endpoints';
+import axios from './axios';
 
-export let covidDataSource: IApiSource = endpoints.HOPKINS;
+export let covidDataSource: IApiSource = endpoints.DISEASE;
 export let countriesDataSource: IApiSource = endpoints.RESTCOUNTRIES;
 
 function getResultObject(action: string, isError: boolean, data: any) {
@@ -15,7 +16,7 @@ function getResultObject(action: string, isError: boolean, data: any) {
   };
 }
 
-function fetchData(
+async function fetchData(
   action: string,
   endpoint: IApiEndpoint,
   resolve: (response: any) => void,
@@ -24,15 +25,24 @@ function fetchData(
   addUrl = ''
 ) {
   endpoint.params = params;
-  fetch(addUrl || endpoint.url)
-    .then(async (response) => {
-      let data = await response.json();
-      if (endpoint.handler) {
-        data = endpoint.handler(data);
-      }
-      resolve(getResultObject(action, false, data));
-    })
-    .catch((error) => reject(getResultObject(action, true, error)));
+  try {
+    const apiData = await axios.get(addUrl || endpoint.url);
+    let data = apiData.data;
+
+    if (
+      covidDataSource === endpoints.DISEASE &&
+      endpoint === endpoints.DISEASE.summary
+    ) {
+      const globalData = await axios.get(endpoints.DISEASE.globalSummary.url);
+      data = endpoint.handler ? endpoint.handler(data, globalData.data) : data;
+    } else {
+      data = endpoint.handler ? endpoint.handler(data) : data;
+    }
+
+    resolve(getResultObject(action, false, data));
+  } catch (error) {
+    reject(getResultObject(action, true, error));
+  }
 }
 
 export function fetchCountries(
@@ -70,7 +80,10 @@ export function fetchCovidCountryData(
   if (!params.country) {
     return;
   }
-  const addUrl = covidDataSource.country.url + params.country;
+  const addUrl = covidDataSource.country.url.replace(
+    '{country}',
+    params.country
+  );
   fetchData(action, covidDataSource.country, resolve, reject, params, addUrl);
 }
 

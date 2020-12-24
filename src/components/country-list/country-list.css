@@ -85,7 +85,7 @@
 
 .country-list__fullscreen {
   position: absolute;
-  padding: 0 70px;
+  padding: 80px 70px 0;
 
   width: calc(100% - 20px);
   height: calc(100% - 20px);

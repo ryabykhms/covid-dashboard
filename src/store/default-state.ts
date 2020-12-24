@@ -1,6 +1,6 @@
 import { IAppState } from '@types';
 
-export default {
+export default ({
   isCountriesLoaded: false,
   isCovidLoaded: false,
   isGlobalCovidDataLoaded: false,
@@ -20,4 +20,6 @@ export default {
   searchValue: '',
   intensivity: null,
   fullScreenElement: false,
-} as unknown as IAppState;
+  isCountryCovidDataFailed: false,
+  isCovidFailed: false,
+} as unknown) as IAppState;
