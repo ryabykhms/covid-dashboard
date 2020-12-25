@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import defaultState from './default-state';
+import { defaultState } from './default-state';
 import { rootReducer } from './reducers';
 
 const composeEnhancers =
@@ -12,7 +12,5 @@ export const AppStore = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-// AppStore.subscribe(() => console.log(AppStore.getState()));
-
-export { defaultState };
+export * from './default-state';
 export * from './reducers';

@@ -10,14 +10,15 @@ import {
 import { SELECTED_DATA_OPTIONS } from "@constants";
 
 export const ControlElement = () => {
-  const timeInterval = useSelector((state: IAppState) => state.selectedOptions.timeInterval);
-  const activeStatus = useSelector((state: IAppState) => state.selectedOptions.activeStatus);
-  const sizeStats = useSelector((state: IAppState) => state.selectedOptions.sizeStats);
+  const {
+    timeInterval,
+    activeStatus,
+    sizeStats,
+  } = useSelector((state: IAppState) => state.selectedOptions);
 
   const isFullScreen = useSelector((state: IAppState) => state.fullScreenElement);
 
   const dispatch = useDispatch();
-
   const setTimeInterval = (timeInterval: string) => dispatch(setActiveTimeInterval(timeInterval));
   const setStatusActive = (activeStatus: string) => dispatch(setActiveStatus(activeStatus));
   const setStatusSize = (sizeStatus: string) => dispatch(setSizeStats(sizeStatus));
