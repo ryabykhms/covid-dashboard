@@ -1,29 +1,82 @@
-import { ICountry, ICountryCovidItem } from '@types';
+import { ICountry, ICovidInfo } from '@types';
 import { func, storage } from '@utils';
 import {
   getIntensivity,
   getCoutriesSameFromCovid,
   calcEarthPopulation,
   calcPer100,
+  TGlobalCovidInfo,
 } from '@api';
+
+export interface IItem {
+  [key: string]: number;
+}
+
+export interface IFetchGlobalItem {
+  cases: IItem;
+  deaths: IItem;
+  recovered: IItem;
+}
+
+export interface ICountryData {
+  country: string;
+  province: string[];
+  timeline: IFetchGlobalItem;
+}
+
+export interface ICountryInfo {
+  _id?: number;
+  iso2: string;
+  iso3: string;
+  lat: number;
+  long: number;
+  flag: string;
+}
+
+export interface ICountryItem {
+  updated: number;
+  country: string;
+  countryInfo: ICountryInfo;
+  cases: number;
+  todayCases: number;
+  deaths: number;
+  todayDeaths: number;
+  recovered: number;
+  todayRecovered: number;
+  active: number;
+  critical: number;
+  casesPerOneMillion: number;
+  deathsPerOneMillion: number;
+  tests: number;
+  testsPerOneMillion: number;
+  population: number;
+  continent?: string;
+  oneCasePerPeople: number;
+  oneDeathPerPeople: number;
+  oneTestPerPeople: number;
+  activePerOneMillion: number;
+  recoveredPerOneMillion: number;
+  criticalPerOneMillion: number;
+  affectedCountries?: number;
+}
 
 export const DISEASE = {
   globalData: {
     url: 'https://disease.sh/v3/covid-19/historical/all?lastdays=400',
     params: { countries: [] },
-    handler: (data: any) => globalDataHandler(data),
+    handler: (data: IFetchGlobalItem) => globalDataHandler(data),
   },
 
   summary: {
     url: 'https://disease.sh/v3/covid-19/countries',
     params: { countries: [] },
-    handler: (data: any, addData: any) => summaryDataHandler(data, addData),
+    handler: (data: ICountryItem[], addData: ICountryItem) => summaryDataHandler(data, addData),
   },
 
   country: {
     url: 'https://disease.sh/v3/covid-19/historical/{country}?lastdays=400',
     params: { country: null, population: 0 },
-    handler: (data: any) => countryDataHandler(data),
+    handler: (data: ICountryData) => countryDataHandler(data),
   },
 
   globalSummary: {
@@ -31,18 +84,14 @@ export const DISEASE = {
   },
 };
 
-function countryDataHandler(data: any) {
+function countryDataHandler(data: ICountryData) {
   const { population } = DISEASE.country.params;
-  const selectedData = formatGlobalCovidData(
-    population,
-    data.timeline,
-    data.country
-  );
+  const selectedData = formatGlobalCovidData(population, data.timeline, data.country);
 
   return selectedData;
 }
 
-function globalDataHandler(data: any) {
+function globalDataHandler(data: IFetchGlobalItem) {
   const { countries } = DISEASE.globalData.params;
   let globalCovidData = null;
   let population = calcEarthPopulation(countries);
@@ -50,12 +99,14 @@ function globalDataHandler(data: any) {
   return globalCovidData;
 }
 
-function summaryDataHandler(data: any, globalData: any) {
+function summaryDataHandler(data: ICountryItem[], globalData: ICountryItem) {
+  console.log(globalData);
+
   const { countries } = DISEASE.summary.params;
-  let covidAllCountries = {};
+  let covidAllCountries: TGlobalCovidInfo = {};
   let intensivity = {};
-  let covidGlobal = [];
-  let validCountries: Array<ICountry> = countries;
+  let covidGlobal: ICovidInfo | [] = [];
+  let validCountries: ICountry[] = countries;
 
   const fetchDate = new Date().getTime().toString();
   const population = calcEarthPopulation(countries);
@@ -77,7 +128,7 @@ function summaryDataHandler(data: any, globalData: any) {
   return { covidAllCountries, validCountries, covidGlobal, intensivity };
 }
 
-function formatDataFromFetch(countries: ICountry[], data: any) {
+function formatDataFromFetch(countries: ICountry[], data: ICountryItem[]): TGlobalCovidInfo | {} {
   const countriesObject = countries.reduce((acc: object, country: ICountry) => {
     return {
       ...acc,
@@ -85,7 +136,7 @@ function formatDataFromFetch(countries: ICountry[], data: any) {
     };
   }, {});
 
-  const covidData = data.reduce((acc: Object, country: any) => {
+  const covidData = data.reduce((acc: Object, country: ICountryItem) => {
     if (!countriesObject[country.countryInfo.iso2]) {
       return { ...acc };
     }
@@ -105,7 +156,7 @@ function formatDataFromFetch(countries: ICountry[], data: any) {
   return covidData;
 }
 
-function createCovidInfoObject(population: number, info: any): any {
+function createCovidInfoObject(population: number, info: ICountryItem): ICovidInfo {
   const obj = {
     population,
     total: {
@@ -126,12 +177,7 @@ function createCovidInfoObject(population: number, info: any): any {
       recovered: info.todayRecovered,
     },
 
-    lastDayPer100: calcPer100(
-      population,
-      info.todayCases,
-      info.todayDeaths,
-      info.todayRecovered
-    ),
+    lastDayPer100: calcPer100(population, info.todayCases, info.todayDeaths, info.todayRecovered),
   };
 
   return obj;
@@ -147,7 +193,7 @@ function getNew(prev: number | undefined, current: number) {
   return diff;
 }
 
-function formatGlobalCovidData(population: number, data: any, country?: any) {
+function formatGlobalCovidData(population: number, data: IFetchGlobalItem, country?: string) {
   const dates = Object.keys(data.cases);
 
   const result = dates.map((date, i) => {
@@ -172,20 +218,11 @@ function formatGlobalCovidData(population: number, data: any, country?: any) {
       Recovered: data.recovered[date],
       ConfirmedPer100: func.calcPer100Thousand(population, data.cases[date]),
       DeathsPer100: func.calcPer100Thousand(population, data.deaths[date]),
-      RecoveredPer100: func.calcPer100Thousand(
-        population,
-        data.recovered[date]
-      ),
+      RecoveredPer100: func.calcPer100Thousand(population, data.recovered[date]),
       ...newData,
-      NewConfirmedPer100: func.calcPer100Thousand(
-        population,
-        newData.NewConfirmed
-      ),
+      NewConfirmedPer100: func.calcPer100Thousand(population, newData.NewConfirmed),
       NewDeathsPer100: func.calcPer100Thousand(population, newData.NewDeaths),
-      NewRecoveredPer100: func.calcPer100Thousand(
-        population,
-        newData.NewRecovered
-      ),
+      NewRecoveredPer100: func.calcPer100Thousand(population, newData.NewRecovered),
       ...dataCountry,
       Date: lastDay,
     };
@@ -194,6 +231,6 @@ function formatGlobalCovidData(population: number, data: any, country?: any) {
   return result;
 }
 
-function formatGlobalFromFetch(population: number, global: any) {
+function formatGlobalFromFetch(population: number, global: ICountryItem) {
   return createCovidInfoObject(population, global);
 }

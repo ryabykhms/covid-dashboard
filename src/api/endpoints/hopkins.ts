@@ -1,33 +1,63 @@
-import { ICountry, ICountryCovidItem } from '@types';
+import { ICountry, ICountryCovidItem, ICovidInfo } from '@types';
 import { func, storage } from '@utils';
 import {
   getIntensivity,
   getCoutriesSameFromCovid,
   calcEarthPopulation,
   calcPer100,
+  TGlobalCovidInfo,
 } from '@api';
+
+export interface IFetchGlobalItem {
+  NewConfirmed: number;
+  TotalConfirmed: number;
+  NewDeaths: number;
+  TotalDeaths: number;
+  NewRecovered: number;
+  TotalRecovered: number;
+}
+
+export interface ICountryItem {
+  Country: string;
+  CountryCode: string;
+  Slug: string;
+  NewConfirmed: number;
+  TotalConfirmed: number;
+  NewDeaths: number;
+  TotalDeaths: number;
+  NewRecovered: number;
+  TotalRecovered: number;
+  Date: Date;
+}
+
+export interface IFetchSummaryData {
+  Message: string;
+  Global: IFetchGlobalItem;
+  Countries: ICountryItem[];
+  Date: Date;
+}
 
 export const HOPKINS = {
   globalData: {
     url: 'https://api.covid19api.com/world',
     params: { countries: [] },
-    handler: (data: any) => globalDataHandler(data),
+    handler: (data: IFetchGlobalItem[]) => globalDataHandler(data),
   },
 
   summary: {
     url: 'https://api.covid19api.com/summary',
     params: { countries: [] },
-    handler: (data: any) => summaryDataHandler(data),
+    handler: (data: IFetchSummaryData) => summaryDataHandler(data),
   },
 
   country: {
     url: 'https://api.covid19api.com/country/{country}',
     params: { country: null, population: 0 },
-    handler: (data: any) => countryDataHandler(data),
+    handler: (data: ICountryCovidItem[]) => countryDataHandler(data),
   },
 };
 
-function countryDataHandler(data: any) {
+function countryDataHandler(data: ICountryCovidItem[]) {
   const { population } = HOPKINS.country.params;
 
   const selectedData = formatCovidData(population, data);
@@ -71,7 +101,7 @@ function formatCovidData(population: number, data: ICountryCovidItem[]) {
   }));
 }
 
-function createCovidInfoObject(population: number, info: any): any {
+function createCovidInfoObject(population: number, info: IFetchGlobalItem): ICovidInfo {
   const obj = {
     population,
     total: {
@@ -80,12 +110,7 @@ function createCovidInfoObject(population: number, info: any): any {
       recovered: info.TotalRecovered,
     },
 
-    totalPer100: calcPer100(
-      population,
-      info.TotalConfirmed,
-      info.TotalDeaths,
-      info.TotalRecovered
-    ),
+    totalPer100: calcPer100(population, info.TotalConfirmed, info.TotalDeaths, info.TotalRecovered),
 
     lastDay: {
       confirmed: info.NewConfirmed,
@@ -93,18 +118,13 @@ function createCovidInfoObject(population: number, info: any): any {
       recovered: info.NewRecovered,
     },
 
-    lastDayPer100: calcPer100(
-      population,
-      info.NewConfirmed,
-      info.NewDeaths,
-      info.NewRecovered
-    ),
+    lastDayPer100: calcPer100(population, info.NewConfirmed, info.NewDeaths, info.NewRecovered),
   };
 
   return obj;
 }
 
-function formatDataFromFetch(countries: ICountry[], data: any) {
+function formatDataFromFetch(countries: ICountry[], data: ICountryItem[]): TGlobalCovidInfo | {} {
   const countriesObject = countries.reduce((acc: object, country: ICountry) => {
     return {
       ...acc,
@@ -112,7 +132,7 @@ function formatDataFromFetch(countries: ICountry[], data: any) {
     };
   }, {});
 
-  const covidData = data.reduce((acc: Object, country: any) => {
+  const covidData = data.reduce((acc: Object, country: ICountryItem) => {
     if (!countriesObject[country.CountryCode]) {
       return { ...acc };
     }
@@ -132,12 +152,12 @@ function formatDataFromFetch(countries: ICountry[], data: any) {
   return covidData;
 }
 
-function summaryDataHandler(data: any) {
+function summaryDataHandler(data: IFetchSummaryData) {
   const { countries } = HOPKINS.summary.params;
-  let covidAllCountries = {};
+  let covidAllCountries: TGlobalCovidInfo = {};
   let intensivity = {};
-  let covidGlobal = [];
-  let validCountries: Array<ICountry> = countries;
+  let covidGlobal: ICovidInfo | [] = [];
+  let validCountries: ICountry[] = countries;
 
   const fetchDate = new Date().getTime().toString();
   const population = calcEarthPopulation(countries);
@@ -159,7 +179,7 @@ function summaryDataHandler(data: any) {
   return { covidAllCountries, validCountries, covidGlobal, intensivity };
 }
 
-function formatGlobalFromFetch(population: number, global: any) {
+function formatGlobalFromFetch(population: number, global: IFetchGlobalItem) {
   return createCovidInfoObject(population, global);
 }
 
@@ -170,7 +190,7 @@ function getDatePrev(lastDay: Date, countDays: number) {
   return prevDate;
 }
 
-function formatGlobalCovidData(population: number, data: any[]) {
+function formatGlobalCovidData(population: number, data: IFetchGlobalItem[]) {
   const lastDay = new Date();
   const length = data.length;
   const sortData = data.slice();
@@ -181,33 +201,21 @@ function formatGlobalCovidData(population: number, data: any[]) {
       Confirmed: infoByDay.TotalConfirmed,
       Deaths: infoByDay.TotalDeaths,
       Recovered: infoByDay.TotalRecovered,
-      ConfirmedPer100: func.calcPer100Thousand(
-        population,
-        infoByDay.TotalConfirmed
-      ),
+      ConfirmedPer100: func.calcPer100Thousand(population, infoByDay.TotalConfirmed),
       DeathsPer100: func.calcPer100Thousand(population, infoByDay.TotalDeaths),
-      RecoveredPer100: func.calcPer100Thousand(
-        population,
-        infoByDay.TotalRecovered
-      ),
+      RecoveredPer100: func.calcPer100Thousand(population, infoByDay.TotalRecovered),
       NewConfirmed: infoByDay.NewConfirmed,
       NewDeaths: infoByDay.NewDeaths,
       NewRecovered: infoByDay.NewRecovered,
-      NewConfirmedPer100: func.calcPer100Thousand(
-        population,
-        infoByDay.NewConfirmed
-      ),
+      NewConfirmedPer100: func.calcPer100Thousand(population, infoByDay.NewConfirmed),
       NewDeathsPer100: func.calcPer100Thousand(population, infoByDay.NewDeaths),
-      NewRecoveredPer100: func.calcPer100Thousand(
-        population,
-        infoByDay.NewRecovered
-      ),
+      NewRecoveredPer100: func.calcPer100Thousand(population, infoByDay.NewRecovered),
       Date: date,
     };
   });
 }
 
-function globalDataHandler(data: any) {
+function globalDataHandler(data: IFetchGlobalItem[]) {
   const { countries } = HOPKINS.globalData.params;
   let globalCovidData = null;
   let population = calcEarthPopulation(countries);

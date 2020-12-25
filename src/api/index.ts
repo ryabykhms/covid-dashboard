@@ -6,3 +6,5 @@ export {
   calcEarthPopulation,
   calcPer100,
 } from './functions';
+
+export { TPayloadData, TGlobalCovidInfo } from './types';
