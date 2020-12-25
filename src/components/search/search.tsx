@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './search.css';
-import {FormEvent} from "react";
-import {useDispatch} from "react-redux";
+import { FormEvent } from "react";
+import { useDispatch } from "react-redux";
 import { setSearchValue } from "@store";
 
 export const Search = () => {

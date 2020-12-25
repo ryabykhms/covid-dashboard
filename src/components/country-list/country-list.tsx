@@ -6,13 +6,13 @@ import 'simplebar/dist/simplebar.min.css';
 import {
   IAppState,
   ICovidInfo,
-  ICountryForRender
+  ICountryForRender,
 } from '@types';
-import {setActiveCountry, setFullScreenElementValue} from '@store';
+import { setActiveCountry, setFullScreenElementValue } from '@store';
 import { getStatsOnCurrentOptions } from "@utils";
 import { SELECTED_DATA_OPTIONS } from "@constants";
 import { FullScreenMode } from "../full-screen-mode";
-import {SyntheticEvent, useRef} from "react";
+import { useRef } from "react";
 import { NoData } from '@components';
 
 const switchStatusStats = (status: string | undefined): string => {
@@ -31,28 +31,24 @@ const switchStatusStats = (status: string | undefined): string => {
   }
 };
 
-export const CountryList = (state: any) => {
-  const covidAllCountries = useSelector(
-    (state: IAppState) => state.covidAllCountries
+export const CountryList = () => {
+  const {
+    covidAllCountries,
+    selectedOptions,
+    isCovidFailed,
+    countries,
+    selectedCountry,
+    searchValue,
+  } = useSelector(
+    (state: IAppState) => state
   );
-  const selectedOptions = useSelector(
-    (state: IAppState) => state.selectedOptions
-  );
-  const isCovidFailed = useSelector((state: IAppState) => state.isCovidFailed);
-
-  const country = useSelector((state: IAppState) => state.countries);
-  const selectedCountry = useSelector(
-    (state: IAppState) => state.selectedCountry
-  );
-
-  const searchValue = useSelector((state: IAppState) => state.searchValue);
 
   const dispatch = useDispatch();
   const setCountry = (name: string) => dispatch(setActiveCountry(name));
 
   let result: ICountryForRender[] = [];
   if (!isCovidFailed) {
-    result = country
+    result = countries
       .map(({ name, flag, alpha2Code }) => {
         const alpha2 = alpha2Code as keyof ICovidInfo;
         const [stats, status] = getStatsOnCurrentOptions(
@@ -83,7 +79,7 @@ export const CountryList = (state: any) => {
 
   const list = useRef(null);
 
-  const toggle = () => {
+  const toggle: () => void = () => {
     dispatch(setFullScreenElementValue());
     (list.current as unknown as HTMLElement).classList.toggle('country-list__fullscreen');
   }

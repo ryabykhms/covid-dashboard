@@ -1,6 +1,6 @@
 import { IAppState } from '@types';
 
-export default ({
+export const defaultState: IAppState = {
   isCountriesLoaded: false,
   isCovidLoaded: false,
   isGlobalCovidDataLoaded: false,
@@ -9,7 +9,7 @@ export default ({
   selectedCountry: null,
   covidActive: null,
   covidGlobal: null,
-  covidAllCountries: [],
+  covidAllCountries: {},
   globalCovidData: [],
   selectedData: [],
   selectedOptions: {
@@ -22,4 +22,4 @@ export default ({
   fullScreenElement: false,
   isCountryCovidDataFailed: false,
   isCovidFailed: false,
-} as unknown) as IAppState;
+};

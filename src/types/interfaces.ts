@@ -122,3 +122,5 @@ export interface ICountryForRender {
   stats?: number;
   status?: string;
 }
+
+export type VoidSubscriberFullScreenMode = { click: () => void };
