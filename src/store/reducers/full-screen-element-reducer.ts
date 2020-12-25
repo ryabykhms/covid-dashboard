@@ -1,8 +1,7 @@
-import {defaultState} from "@store";
-import {AppActions} from "@types";
-import {Dispatch} from "redux";
+import { AppActions, IAppState } from "@types";
+import { AnyAction, Dispatch } from "redux";
 
-export function fullScreenElementReducer(state = defaultState, action: any) {
+export function fullScreenElementReducer(state: IAppState, action: AnyAction) {
   const { type } = action;
   let fullScreenElement = state.fullScreenElement;
   switch (type) {

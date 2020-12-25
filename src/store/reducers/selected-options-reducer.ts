@@ -1,8 +1,7 @@
-import { Dispatch } from 'redux';
-import { AppActions } from '@types';
-import { defaultState } from '@store';
+import { AnyAction, Dispatch } from 'redux';
+import { AppActions, IAppState } from '@types';
 
-export function selectedOptionsReducer(state = defaultState, action: any) {
+export function selectedOptionsReducer(state: IAppState, action: AnyAction) {
   const { payload, type } = action;
   let selectedOptions = state.selectedOptions;
   switch (type) {

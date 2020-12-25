@@ -1,10 +1,9 @@
-import { Dispatch } from 'redux';
-import { defaultState } from '@store';
-import { ICountry, AppActions, IFetchResult } from '@types';
+import { AnyAction, Dispatch } from 'redux';
+import { ICountry, AppActions, IFetchResult, IAppState } from '@types';
 import { storage } from '@utils';
 import { api } from '@api';
 
-export function covidReducer(state = defaultState, action: any) {
+export function covidReducer(state: IAppState, action: AnyAction) {
   const { payload, type } = action;
   switch (type) {
     case AppActions.SET_COVID_DATA:

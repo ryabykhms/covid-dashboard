@@ -3,11 +3,15 @@ import thunk from 'redux-thunk';
 import { defaultState } from './default-state';
 import { rootReducer } from './reducers';
 
+declare global {
+  interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any; }
+}
+
 const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const AppStore = createStore(
-  rootReducer as any,
+  rootReducer,
   defaultState,
   composeEnhancers(applyMiddleware(thunk))
 );

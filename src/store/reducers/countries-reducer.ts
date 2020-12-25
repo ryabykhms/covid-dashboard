@@ -1,12 +1,11 @@
-import { Dispatch } from 'redux';
-import { defaultState } from '@store';
-import { AppActions, IFetchResult } from '@types';
+import { AnyAction, Dispatch } from 'redux';
+import { AppActions, IAppState, IFetchResult } from '@types';
 import { storage } from '@utils';
 import { api } from '@api';
 
 let populationMain: any = 0;
 
-export function countriesReducer(state = defaultState, action: any) {
+export function countriesReducer(state: IAppState, action: AnyAction) {
   const { payload, type } = action;
   switch (type) {
     case AppActions.SET_COUNTRIES:
