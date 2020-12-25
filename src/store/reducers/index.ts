@@ -1,4 +1,4 @@
-import { defaultState } from '@store';
+import {defaultState, popupReducer} from '@store';
 import { api } from '@api';
 import { countriesReducer } from './countries-reducer';
 import { covidReducer } from './covid-reducer';
@@ -30,6 +30,8 @@ export function rootReducer(state: IAppState = defaultState, action: AnyAction) 
       return searchReducer(state, action);
     case AppActions.SET_FULL_SCREEN:
       return fullScreenElementReducer(state, action);
+    case AppActions.SEP_POPUP_STATUS:
+      return popupReducer(state, action);
     default:
       return state;
   }
@@ -40,3 +42,4 @@ export * from './covid-reducer';
 export * from './selected-options-reducer';
 export * from './search-reducer';
 export * from './full-screen-element-reducer';
+export * from './popup-reducer';
