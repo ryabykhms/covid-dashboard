@@ -22,4 +22,5 @@ export const defaultState: IAppState = {
   fullScreenElement: false,
   isCountryCovidDataFailed: false,
   isCovidFailed: false,
+  popup: false,
 };

@@ -69,6 +69,7 @@ export interface IAppState {
   searchValue: string;
   intensivity: ICovidInfo | null;
   fullScreenElement: boolean;
+  popup: boolean;
 }
 
 export interface IAppComponentProps {

@@ -20,11 +20,6 @@
   height: 100%;
 }
 
-/*.chart__fullscreen #chart-country svg rect {*/
-/*    width: 90%;*/
-/*    height: 90%;*/
-/*}*/
-
 .chart__confirmed {
   color: var(--disturbing-color);
 }
