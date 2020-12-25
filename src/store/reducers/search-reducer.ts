@@ -1,8 +1,7 @@
-import {defaultState} from "@store";
-import {AppActions} from "@types";
-import {Dispatch} from "redux";
+import { AppActions, IAppState } from "@types";
+import { AnyAction, Dispatch } from "redux";
 
-export function searchReducer(state = defaultState, action: any) {
+export function searchReducer(state: IAppState, action: AnyAction) {
   const { payload, type } = action;
   let searchValue = state.searchValue;
   switch (type) {
