@@ -100,8 +100,6 @@ function globalDataHandler(data: IFetchGlobalItem) {
 }
 
 function summaryDataHandler(data: ICountryItem[], globalData: ICountryItem) {
-  console.log(globalData);
-
   const { countries } = DISEASE.summary.params;
   let covidAllCountries: TGlobalCovidInfo = {};
   let intensivity = {};
