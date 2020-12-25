@@ -1,11 +1,19 @@
 import { IApiEndpoint, IApiSource, IFetchResult } from '@types';
 import * as endpoints from './endpoints';
 import axios from './axios';
+import { TPayloadData } from '@api';
 
 export let covidDataSource: IApiSource = endpoints.DISEASE;
 export let countriesDataSource: IApiSource = endpoints.RESTCOUNTRIES;
 
-function getResultObject(action: string, isError: boolean, data: any) {
+type TFetchCallback = (result: IFetchResult) => void;
+
+interface IParamsCountry {
+  country: string | null;
+  population: number;
+}
+
+function getResultObject(action: string, isError: boolean, data: TPayloadData): IFetchResult {
   return {
     type: action,
     payload: {
@@ -19,20 +27,18 @@ function getResultObject(action: string, isError: boolean, data: any) {
 async function fetchData(
   action: string,
   endpoint: IApiEndpoint,
-  resolve: (response: any) => void,
-  reject: (error: any) => void,
-  params = {},
+  resolve: TFetchCallback,
+  reject: TFetchCallback,
+  params: Object = {},
   addUrl = ''
 ) {
   endpoint.params = params;
+
   try {
     const apiData = await axios.get(addUrl || endpoint.url);
     let data = apiData.data;
 
-    if (
-      covidDataSource === endpoints.DISEASE &&
-      endpoint === endpoints.DISEASE.summary
-    ) {
+    if (covidDataSource === endpoints.DISEASE && endpoint === endpoints.DISEASE.summary) {
       const globalData = await axios.get(endpoints.DISEASE.globalSummary.url);
       data = endpoint.handler ? endpoint.handler(data, globalData.data) : data;
     } else {
@@ -45,45 +51,39 @@ async function fetchData(
   }
 }
 
-export function fetchCountries(
-  action: string,
-  resolve: (result: IFetchResult) => void,
-  reject: (result: IFetchResult) => void
-) {
+export function fetchCountries(action: string, resolve: TFetchCallback, reject: TFetchCallback) {
   fetchData(action, countriesDataSource.countries, resolve, reject);
 }
 
 export function fetchCovidGlobalData(
   action: string,
-  resolve: (result: IFetchResult) => void,
-  reject: (result: IFetchResult) => void,
-  params: object
+  resolve: TFetchCallback,
+  reject: TFetchCallback,
+  params: Object = {}
 ) {
   fetchData(action, covidDataSource.globalData, resolve, reject, params);
 }
 
 export function fetchCovidSummaryData(
   action: string,
-  resolve: (result: IFetchResult) => void,
-  reject: (result: IFetchResult) => void,
-  params = {}
+  resolve: TFetchCallback,
+  reject: TFetchCallback,
+  params: Object = {}
 ) {
   fetchData(action, covidDataSource.summary, resolve, reject, params);
 }
 
 export function fetchCovidCountryData(
   action: string,
-  resolve: (result: IFetchResult) => void,
-  reject: (result: IFetchResult) => void,
-  params: any = {}
+  resolve: TFetchCallback,
+  reject: TFetchCallback,
+  params: IParamsCountry
 ) {
   if (!params.country) {
     return;
   }
-  const addUrl = covidDataSource.country.url.replace(
-    '{country}',
-    params.country
-  );
+
+  const addUrl = covidDataSource.country.url.replace('{country}', params.country);
   fetchData(action, covidDataSource.country, resolve, reject, params, addUrl);
 }
 

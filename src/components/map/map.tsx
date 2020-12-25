@@ -12,36 +12,15 @@ import Legend from './legend';
 import { useRef } from 'react';
 import { FullScreenMode } from '../full-screen-mode';
 
-interface IGeoFeature {
-  type: string;
-  properties: {
-    iso_a2: string;
-    name: string;
-  };
-  geometry: {
-    coordinates: number[];
-    type: string;
-  };
-}
-
 export const Map = () => {
   const dispatch = useDispatch();
   const setCountry = (name: string) => dispatch(setActiveCountry(name));
   const intensivity = useSelector((state: IAppState) => state.intensivity);
-  const covidAllCountries = useSelector(
-    (state: IAppState) => state.covidAllCountries
-  );
-  const selectedCountry = useSelector(
-    (state: IAppState) => state.selectedCountry
-  );
-  const selectedOptions = useSelector(
-    (state: IAppState) => state.selectedOptions
-  );
+  const covidAllCountries = useSelector((state: IAppState) => state.covidAllCountries);
+  const selectedCountry = useSelector((state: IAppState) => state.selectedCountry);
+  const selectedOptions = useSelector((state: IAppState) => state.selectedOptions);
 
-  const [intensivityItem, optionKey]: any = getStatsOnCurrentOptions(
-    intensivity,
-    selectedOptions
-  );
+  const [intensivityItem]: any = getStatsOnCurrentOptions(intensivity, selectedOptions);
 
   const labelPerCountry = (feature: any) => {
     const alpha2Code = feature.properties.iso_a2;
@@ -97,14 +76,12 @@ export const Map = () => {
     });
 
     if (covidAllCountries[alpha2Code]) {
-      const [current, option]: any = getStatsOnCurrentOptions(
+      const [current]: any = getStatsOnCurrentOptions(
         covidAllCountries[alpha2Code],
         selectedOptions
       );
 
-      const colorIndex = (intensivityItem || []).findIndex(
-        (item: any) => current <= item
-      );
+      const colorIndex = (intensivityItem || []).findIndex((item: any) => current <= item);
 
       let color = colors[0];
 
@@ -130,9 +107,7 @@ export const Map = () => {
 
   const toggle = () => {
     dispatch(setFullScreenElementValue());
-    ((map.current as unknown) as HTMLElement).classList.toggle(
-      'map-container__full-screen'
-    );
+    ((map.current as unknown) as HTMLElement).classList.toggle('map-container__full-screen');
 
     if (map && map.current) {
       window.dispatchEvent(new Event('resize'));
@@ -150,11 +125,7 @@ export const Map = () => {
         minZoom={1}
         maxBounds={bounds}
       >
-        <GeoJSON
-          key={key}
-          data={geoJson as any}
-          onEachFeature={onEachCountry}
-        />
+        <GeoJSON key={key} data={geoJson as any} onEachFeature={onEachCountry} />
 
         <Legend intensivity={intensivityItem} colors={colors} />
       </MapContainer>

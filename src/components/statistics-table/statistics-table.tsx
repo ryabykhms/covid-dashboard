@@ -6,16 +6,13 @@ import { useSelector } from 'react-redux';
 import SimpleBar from 'simplebar-react';
 import './statistics-table.css';
 import Table from './table';
-import { useRef } from "react";
-import { setFullScreenElementValue } from "@store";
-import { dispatch } from "jest-circus/build/state";
-import { useDispatch } from "react-redux";
-import {FullScreenMode} from "../full-screen-mode";
+import { useRef } from 'react';
+import { setFullScreenElementValue } from '@store';
+import { useDispatch } from 'react-redux';
+import { FullScreenMode } from '../full-screen-mode';
 
 export const StatsTable = () => {
-  const selectedCountry = useSelector(
-    (state: IAppState) => state.selectedCountry
-  );
+  const selectedCountry = useSelector((state: IAppState) => state.selectedCountry);
   const selectedData = useSelector((state: IAppState) => state.selectedData);
   const countries = useSelector((state: IAppState) => state.countries);
   const isCountryCovidDataFailed = useSelector(
@@ -24,9 +21,7 @@ export const StatsTable = () => {
   const isCountryCovidDataLoaded = useSelector(
     (state: IAppState) => state.isCountryCovidDataLoaded
   );
-  const selectedOptions = useSelector(
-    (state: IAppState) => state.selectedOptions
-  );
+  const selectedOptions = useSelector((state: IAppState) => state.selectedOptions);
 
   const optionCond = {
     isNew: false,
@@ -152,9 +147,7 @@ export const StatsTable = () => {
   let flagUrl: any = null;
 
   if (selectedCountry) {
-    flagUrl = countries.find(
-      (country) => country.alpha2Code === selectedCountry
-    )?.flag;
+    flagUrl = countries.find((country) => country.alpha2Code === selectedCountry)?.flag;
   }
 
   const table = useRef(null);
@@ -162,8 +155,10 @@ export const StatsTable = () => {
 
   const toggle = () => {
     dispatch(setFullScreenElementValue());
-    (table.current as unknown as HTMLElement).classList.toggle('stats-table__fullscreen');
-  }
+    ((table.current as unknown) as HTMLElement).classList.toggle('stats-table__fullscreen');
+  };
+
+  const isDataLoaded = data && columns;
 
   return (
     <div className="stats-table" ref={table}>
@@ -173,24 +168,26 @@ export const StatsTable = () => {
         <NoData />
       ) : (
         <React.Fragment>
-          <FullScreenMode click={ toggle } />
+          <FullScreenMode click={toggle} />
           <div className="stats-table__title">
-            {flagUrl && (
-              <img className="stats-table__flag" src={flagUrl} alt={country} />
-            )}
+            {flagUrl && <img className="stats-table__flag" src={flagUrl} alt={country} />}
             <div className="stats-table__country">{country}</div>
           </div>
           <SimpleBar forceVisible="false" className="stats-table__size-scrollbar">
-            <Table
-              className="stats-table__table"
-              columns={columns}
-              data={data}
-              initialState={initialState}
-              cellStyles={cellStyles}
-            ></Table>
+            {isDataLoaded ? (
+              <Table
+                className="stats-table__table"
+                columns={columns}
+                data={data}
+                initialState={initialState}
+                cellStyles={cellStyles}
+              ></Table>
+            ) : (
+              <NoData />
+            )}
           </SimpleBar>
         </React.Fragment>
-     )}
+      )}
     </div>
   );
 };

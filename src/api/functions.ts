@@ -1,4 +1,18 @@
+import { TGlobalCovidInfo } from '@api';
 import { ICountry } from '@types';
+
+interface IIntensivityCase {
+  confirmed: Array<number>;
+  deaths: Array<number>;
+  recovered: Array<number>;
+}
+
+interface IIntensivity {
+  total: IIntensivityCase;
+  totalPer100: IIntensivityCase;
+  lastDay: IIntensivityCase;
+  lastDayPer100: IIntensivityCase;
+}
 
 export const calcPer100 = (
   population: number,
@@ -21,22 +35,23 @@ export function calcEarthPopulation(countries: any) {
 }
 
 export function getCoutriesSameFromCovid(
-  covidAllCountries: any,
-  countries: Array<ICountry>
+  covidAllCountries: TGlobalCovidInfo,
+  countries: ICountry[]
 ) {
   return countries.filter((country: ICountry) => {
     return covidAllCountries[country.alpha2Code.toUpperCase()] !== undefined;
   });
 }
 
-export function getIntensivity(covidAllCountries: any) {
+export function getIntensivity(covidAllCountries: TGlobalCovidInfo) {
   const max = Number.MAX_SAFE_INTEGER;
-  const init = {
+  const init: IIntensivityCase = {
     confirmed: [max, 0],
     deaths: [max, 0],
     recovered: [max, 0],
   };
-  let intensivity: any = {
+
+  let intensivity: IIntensivity = {
     total: { ...init },
     totalPer100: { ...init },
     lastDay: { ...init },
@@ -46,15 +61,9 @@ export function getIntensivity(covidAllCountries: any) {
   Object.keys(covidAllCountries).forEach((key) => {
     const country = covidAllCountries[key];
     intensivity.total = compare(intensivity.total, country.total);
-    intensivity.totalPer100 = compare(
-      intensivity.totalPer100,
-      country.totalPer100
-    );
+    intensivity.totalPer100 = compare(intensivity.totalPer100, country.totalPer100);
     intensivity.lastDay = compare(intensivity.lastDay, country.lastDay);
-    intensivity.lastDayPer100 = compare(
-      intensivity.lastDayPer100,
-      country.lastDayPer100
-    );
+    intensivity.lastDayPer100 = compare(intensivity.lastDayPer100, country.lastDayPer100);
   });
 
   const RANGE_SIZE = 5;
@@ -87,23 +96,26 @@ function compare(object1: any, object2: any) {
   return result;
 }
 
-function range(size: number, obj: any) {
-  const result = Object.keys(obj).reduce((acc: object, key: string) => {
-    const [min, max] = obj[key];
-    const step = Math.round((max - min) / size);
+function getRangeByBounds(size: number, bounds: Array<number>) {
+  const [min, max] = bounds;
+  const step = Math.abs(Math.round((max - min) / size));
 
-    return {
-      ...acc,
-      [key]: Array(size)
-        .fill(0)
-        .map((_, idx) => min + idx * step),
-    };
-  }, {});
-
-  return result;
+  return Array(size)
+    .fill(0)
+    .map((_, idx) => min + idx * step);
 }
 
-function rangeIntensivity(size: number, intensivity: any) {
+function range(size: number, obj: IIntensivityCase): IIntensivityCase {
+  const rangeObject: IIntensivityCase = {
+    confirmed: getRangeByBounds(size, obj.confirmed),
+    deaths: getRangeByBounds(size, obj.deaths),
+    recovered: getRangeByBounds(size, obj.recovered),
+  };
+
+  return rangeObject;
+}
+
+function rangeIntensivity(size: number, intensivity: IIntensivity): IIntensivity {
   const obj = {
     total: range(size, intensivity.total),
     totalPer100: range(size, intensivity.totalPer100),

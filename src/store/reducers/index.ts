@@ -1,16 +1,15 @@
-import {defaultState, popupReducer} from '@store';
+import { defaultState, popupReducer } from '@store';
 import { api } from '@api';
 import { countriesReducer } from './countries-reducer';
 import { covidReducer } from './covid-reducer';
 import { selectedOptionsReducer } from './selected-options-reducer';
-import { searchReducer } from './search-reducer'
-import { fullScreenElementReducer } from "./full-screen-element-reducer";
-import { AppActions, IAppState } from "@types";
-import { AnyAction } from "redux";
+import { searchReducer } from './search-reducer';
+import { fullScreenElementReducer } from './full-screen-element-reducer';
+import { AppActions, IAppState } from '@types';
+import { AnyAction } from 'redux';
 
 export function rootReducer(state: IAppState = defaultState, action: AnyAction) {
-
-  const { HOPKINS, DISEASE, RESTCOUNTRIES } = api.endpoints;
+  const { DISEASE, RESTCOUNTRIES } = api.endpoints;
   api.setCovidDataSource(DISEASE);
   api.setCountriesDataSource(RESTCOUNTRIES);
 

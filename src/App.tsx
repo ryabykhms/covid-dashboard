@@ -19,19 +19,19 @@ function AppComponent({
     if (!isCountriesLoaded) {
       loadCountries();
     }
-  }, []);
+  }, [isCountriesLoaded, loadCountries]);
 
   useEffect(() => {
     if (isCountriesLoaded && !isCovidLoaded) {
       loadCovidInfo(countries);
     }
-  }, [isCountriesLoaded, countries]);
+  }, [isCountriesLoaded, isCovidLoaded, countries, loadCovidInfo]);
 
   useEffect(() => {
     if (isCovidLoaded && !isGlobalCovidDataLoaded) {
       loadGlobalCovidData(countries);
     }
-  }, [isCovidLoaded, countries]);
+  }, [isCovidLoaded, isGlobalCovidDataLoaded, countries, loadGlobalCovidData]);
 
   return isCountriesLoaded && isCovidLoaded ? <MainPage /> : <Loader />;
 }
@@ -45,10 +45,8 @@ const mapStateToProps = (state: IAppState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadCountries: () => dispatch(loadCountries()),
-  loadCovidInfo: (countries: Array<ICountry>) =>
-    dispatch(loadCovidInfo(countries)),
-  loadGlobalCovidData: (countries: Array<ICountry>) =>
-    dispatch(loadGlobalCovidData(countries)),
+  loadCovidInfo: (countries: Array<ICountry>) => dispatch(loadCovidInfo(countries)),
+  loadGlobalCovidData: (countries: Array<ICountry>) => dispatch(loadGlobalCovidData(countries)),
 });
 
 export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);
